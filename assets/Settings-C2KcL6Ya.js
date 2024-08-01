@@ -1,1 +1,0 @@
-import{f as r,j as e,T as i}from"./index-BJkg56xC.js";const n=()=>{const[s,t]=r();return e.jsx("div",{children:e.jsx("ul",{children:e.jsx("li",{children:e.jsx(i,{isDarkTheme:s,toggleTheme:t})})})})};export{n as default};
