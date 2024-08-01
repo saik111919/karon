@@ -1,0 +1,9 @@
+/* input[type="month"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+input[type="month"] {
+  -moz-appearance: textfield;
+}
+input[type="month"]::-moz-calendar-picker-indicator {
+  display: none;
+} */

@@ -7,7 +7,7 @@ const Settings = lazy(() => import("../page/settings/Settings.jsx"));
 
 const routes = [
   {
-    path: "/",
+    path: "/karon/",
     Component: Home,
     isProtected: true,
     isHeader: true,
@@ -15,7 +15,7 @@ const routes = [
     icon: "HomeIcon",
   },
   {
-    path: "/expense",
+    path: "/karon/expense",
     Component: ExpenseTracker,
     isProtected: true,
     isHeader: true,
@@ -23,7 +23,7 @@ const routes = [
     icon: "ExpenseIcon",
   },
   {
-    path: "/settings",
+    path: "/karon/settings",
     Component: Settings,
     isProtected: true,
     isHeader: true,

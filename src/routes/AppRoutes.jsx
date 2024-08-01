@@ -9,10 +9,9 @@ const AppRoutes = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Layout />}>
+          <Route path='/karon/' element={<Layout />}>
             {routes.map((route, index) => {
               const { path, Component, title, icon } = route;
-
               return (
                 <Route
                   key={index}

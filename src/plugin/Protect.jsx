@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { iconLinks } from "../utils/constent";
+// import { iconLinks } from "../utils/constent";
 
 const Protect = ({ CMP, title, icon }) => {
   useEffect(() => {
     document.title = title;
-    if (icon) {
-      let link =
-        document.querySelector("link[rel*='icon']") ||
-        document.createElement("link");
-      link.rel = "icon";
-      link.href = iconLinks(icon);
-      document.head.appendChild(link);
-    }
+    // if (icon) {
+    //   let link =
+    //     document.querySelector("link[rel*='icon']") ||
+    //     document.createElement("link");
+    //   link.rel = "icon";
+    //   link.href = iconLinks(icon);
+    //   document.head.appendChild(link);
+    // }
   }, [title, icon]);
   return <CMP />;
 };

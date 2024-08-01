@@ -50,7 +50,7 @@ const DropdownMenu = ({ isDarkTheme, toggleTheme }) => {
           <ul className='list-none bg-inherit'>
             <li className='p-3 hover:bg-blue-700 hover:cursor-pointer rounded'>
               <div className='flex justify-between align-middle'>
-                <h6 className='bg-inherit dark:text-black self-center'>
+                <h6 className='bg-inherit dark:text-black self-center hover:text-white '>
                   Theme
                 </h6>
                 <ThemeComp
