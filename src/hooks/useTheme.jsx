@@ -1,9 +1,7 @@
-// src/hooks/useTheme.js
-
 import { useEffect, useState } from "react";
 
 const useTheme = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
     const storedTheme = sessionStorage.getItem("theme");

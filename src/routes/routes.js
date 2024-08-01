@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import Login from "../page/PageAuthentication/Login.jsx";
 const Home = lazy(() => import("../page/Home.jsx"));
 const ExpenseTracker = lazy(() =>
   import("../page/expanseTracker/ExpenseTracker.jsx")
@@ -29,6 +30,14 @@ const routes = [
     isHeader: true,
     title: "Settings",
     icon: "SettingIcon",
+  },
+  {
+    path: "/karon/login",
+    Component: Login,
+    isProtected: false,
+    isHeader: false,
+    title: "Login",
+    icon: "LoginIcon",
   },
 ];
 

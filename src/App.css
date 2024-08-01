@@ -7,3 +7,36 @@ input[type="month"] {
 input[type="month"]::-moz-calendar-picker-indicator {
   display: none;
 } */
+
+/* Toast entrance animation */
+@keyframes toast-in {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Toast exit animation */
+@keyframes toast-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+/* Applying the animations */
+.animate-toast-in {
+  animation: toast-in 0.3s ease-out;
+}
+
+.animate-toast-out {
+  animation: toast-out 0.3s ease-in;
+}
