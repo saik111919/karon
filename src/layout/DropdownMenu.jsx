@@ -1,11 +1,16 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import ThemeComp from "../component/Theme/ThemeComp";
+import { Link } from "react-router-dom";
 
 const DropdownMenu = ({ isDarkTheme, toggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => setIsOpen(!isOpen);
+
+  const handleLogout = () => {
+    localStorage.clear();
+  };
 
   return (
     <div className='relative'>
@@ -58,6 +63,15 @@ const DropdownMenu = ({ isDarkTheme, toggleTheme }) => {
                   toggleTheme={toggleTheme}
                 />
               </div>
+            </li>
+            <li className='p-3 hover:bg-blue-700 hover:cursor-pointer rounded text-center'>
+              <Link
+                to='/karon/login'
+                onClick={handleLogout}
+                className='w-full px-2 py-1 font-bold text-white bg-red-500 rounded hover:bg-red-700'
+              >
+                Logout
+              </Link>
             </li>
           </ul>
         </div>
