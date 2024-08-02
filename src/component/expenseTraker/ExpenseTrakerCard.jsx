@@ -23,8 +23,8 @@ const ExpenseTrackerCard = () => {
     <>
       <LoaderComp />
       <Card className=' mt-2 bg-inherit border rounded-lg'>
-        <CardHeader className='lg:p-3 p-1 px-2 flex justify-between align-middle border-b rounded-t-lg'>
-          <h3 className='self-center drop-shadow-lg'>
+        <CardHeader className='flex justify-between align-middle border-b rounded-t-lg'>
+          <h3 className='self-center drop-shadow-lg px-3'>
             Expenses {selectedMonth && "for"} {selectedMonth}
           </h3>
           <div className='flex items-center'>
@@ -33,7 +33,7 @@ const ExpenseTrackerCard = () => {
               value={selectedMonth}
               onChange={handleMonthChange}
               max={formattedLastMonth}
-              className='bg-inherit border border-inherit rounded-lg p-2 text-inherit placeholder-inherit focus:outline-none focus:ring-2 focus:ring-inherit transition-colors duration-200 ease-in-out'
+              className='bg-inherit border border-inherit rounded-tr-lg p-3 text-inherit placeholder-inherit focus:outline-none focus:ring-2 focus:ring-inherit transition-colors duration-200 ease-in-out'
               placeholder='Select month'
             />
           </div>
