@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 
 const useTheme = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-
-  useEffect(() => {
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
     const storedTheme = sessionStorage.getItem("theme");
-    if (storedTheme) {
-      setIsDarkTheme(storedTheme === "dark");
-    }
-  }, []);
+    return storedTheme ? storedTheme === "dark" : true;
+  });
 
   useEffect(() => {
     document.body.className = isDarkTheme

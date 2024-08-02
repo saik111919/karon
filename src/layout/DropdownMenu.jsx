@@ -9,25 +9,13 @@ const DropdownMenu = ({ isDarkTheme, toggleTheme }) => {
   const handleToggle = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
   };
 
   return (
     <div className='relative'>
-      {/* Dropdown Button with User Image */}
-      <button
-        className='flex items-center p-3'
-        // onMouseEnter={handleToggle}
-        // onMouseLeave={handleToggle}
-        onClick={handleToggle}
-      >
-        <img
-          // src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-          alt='User'
-          className='rounded-full'
-          height={28}
-          width={28}
-        />
+      <button className='flex items-center p-3' onClick={handleToggle}>
+        <img alt='User' className='rounded-full' height={28} width={28} />
         <span className='bg-inherit px-0.5'>Usename</span>
         <svg
           className={`w-4 h-4 ml-2 bi bi-chevron-down ${

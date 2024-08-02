@@ -1,14 +1,14 @@
 import ThemeComp from "../../component/Theme/ThemeComp";
 import useTheme from "../../hooks/useTheme";
-import { useNavigate } from "react-router-dom"; // Assuming you use react-router for navigation
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   const [isDarkTheme, toggleTheme] = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login");
+    sessionStorage.clear();
+    navigate("/karon/login");
   };
 
   return (

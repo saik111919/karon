@@ -23,7 +23,7 @@ const Login = () => {
       .then(({ data }) => {
         showToast(data.message, "success");
         navigate("/karon/");
-        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
       })
       .catch((err) => {
         showToast(

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useExpenseTracker = (data) => {
+const useExpenseTracker = (data = []) => {
   const formatMonth = (month) => {
     const [year, monthNum] = month.split("-");
     return `${year}-${monthNum.padStart(2, "0")}`;

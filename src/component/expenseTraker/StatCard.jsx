@@ -3,7 +3,7 @@ import Card from "../../modules/Card/Card";
 import CardBody from "../../modules/Card/CardBody";
 
 const StatCard = ({ title, value, icon: Icon, iconColor }) => (
-  <Card className='flex-1 min-w-[150px] bg-inherit border rounded-lg shadow-md'>
+  <Card className='flex-1 min-w-[150px] bg-inherit text-inherit border rounded-lg shadow-md'>
     <CardBody className='p-4 flex items-center justify-between'>
       <div className='flex flex-col text-left'>
         <span className='text-lg font-medium'>{title}</span>

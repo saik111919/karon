@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-const CardBody = ({ children, className }) => {
-  return <div className={`text-current ${className}`}>{children}</div>;
+const CardBody = ({ children, className = "text-current" }) => {
+  return <div className={className}>{children}</div>;
 };
 
 CardBody.propTypes = {

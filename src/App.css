@@ -40,3 +40,30 @@ input[type="month"]::-moz-calendar-picker-indicator {
 .animate-toast-out {
   animation: toast-out 0.3s ease-in;
 }
+
+/* Default height for mobile devices */
+.height-table {
+  height: 400px;
+  scrollbar-width: thin;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .height-table {
+    height: 600px;
+  }
+}
+
+/* Large devices (desktops, 1024px and up) */
+@media (min-width: 1024px) {
+  .height-table {
+    height: 720px;
+  }
+}
+
+/* Extra large devices (large desktops, 1280px and up) */
+@media (min-width: 1280px) {
+  .height-table {
+    height: 800px;
+  }
+}

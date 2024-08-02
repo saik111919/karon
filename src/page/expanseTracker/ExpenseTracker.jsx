@@ -1,7 +1,7 @@
+import ExpenseForm from "../../component/expenseTraker/ExpenseForm";
 import useToast from "../../hooks/useToast";
 import useTransaction from "../../hooks/useTransaction";
 import { DeleteTransactions } from "../../services/services";
-import DataTable from "./DataTable";
 
 const ExpenseTracker = () => {
   const { data, LoaderComp, setLoader, fetchTransactions } = useTransaction();
@@ -29,8 +29,11 @@ const ExpenseTracker = () => {
   return (
     <>
       <LoaderComp />
-      ExpenseTracker
-      <DataTable data={data} onDeleteExpense={deleteExpense} />
+      <ExpenseForm
+        data={data}
+        onDeleteExpense={deleteExpense}
+        fetchTransactions={fetchTransactions}
+      />
     </>
   );
 };

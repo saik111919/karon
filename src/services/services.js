@@ -3,7 +3,7 @@ import { client } from "./client";
 // export const BASE_URL = "http://localhost:4000";
 export const BASE_URL = "https://my-app-ebon-omega.vercel.app";
 
-const UserToken = () => localStorage.getItem("token");
+const UserToken = () => sessionStorage.getItem("token");
 
 export const config = () => ({
   headers: {
