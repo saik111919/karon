@@ -80,8 +80,8 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
   };
 
   return (
-    <div className='bg-white shadow-lg rounded-lg overflow-hidden'>
-      <div className='flex flex-wrap items-center justify-between px-2 py-2 border-b border-gray-200'>
+    <div className='bg-white shadow-lg rounded-2xl border overflow-hidden'>
+      <div className='flex flex-wrap items-center justify-between p-2 border-b border-gray-200 bg-gray-50'>
         <input
           type='month'
           className='flex-grow sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
@@ -100,13 +100,13 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
           }
         />
         <button
-          className='flex-grow sm:flex-grow-0 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out'
+          className='ml-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out'
           onClick={handleExport}
         >
           Export To Excel
         </button>
         <select
-          className='flex-grow sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+          className='ml-4 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
           value={selectedDate}
           onChange={(event) => setSelectedDate(event.target.value)}
         >
@@ -126,12 +126,12 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
         <div className='overflow-x-auto'>
           <div className='lg:max-h-[65vh] max-h-[70vh] overflow-y-auto'>
             <table className='min-w-full divide-y divide-gray-200'>
-              <thead className='bg-gray-50 sticky top-0'>
+              <thead className='bg-gray-100 sticky top-0'>
                 <tr>
                   {["Title", "Amount", "Type", "Action"].map((header) => (
                     <th
                       key={header}
-                      className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
+                      className='px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider'
                     >
                       {header}
                     </th>
@@ -141,15 +141,15 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
               <tbody className='bg-white divide-y divide-gray-200'>
                 {filteredTransactions.map((tx) => (
                   <tr key={tx._id}>
-                    <td className='px-6 py-4 text-sm font-medium text-gray-900 truncate'>
+                    <td className='px-4 py-3 text-sm font-medium text-gray-900 truncate'>
                       {tx.title}
                     </td>
-                    <td className='px-6 py-4 text-sm text-gray-900'>
+                    <td className='px-4 py-3 text-sm text-gray-900'>
                       {tx.amount}
                     </td>
-                    <td className='px-6 py-4'>
+                    <td className='px-4 py-3'>
                       <span
-                        className={`px-2 inline-flex text-xs font-semibold rounded-full ${
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                           tx.type === "spent"
                             ? "bg-red-100 text-red-800"
                             : "bg-green-100 text-green-800"
@@ -158,7 +158,7 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
                         {tx.type}
                       </span>
                     </td>
-                    <td className='px-6 py-4 text-sm font-medium'>
+                    <td className='px-4 py-3 text-sm font-medium'>
                       <button
                         className='text-red-600 hover:text-red-900'
                         onClick={() => onDeleteExpense(tx._id)}

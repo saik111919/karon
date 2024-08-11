@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { CgAdd } from "react-icons/cg";
-// import ExpenseModal from "./ExpenseModal";
 import { useState } from "react";
 import DataTable from "./DataTable";
 import ExpenseModal from "./ExpenseModal";
@@ -20,22 +19,21 @@ const ExpenseForm = ({ data, onDeleteExpense, fetchTransactions }) => {
   };
 
   return (
-    <div className='bg-white shadow-lg border border-gray-200 overflow-hidden'>
-      <div className='bg-gradient-to-r from-blue-500 to-blue-600 p-2 border'>
-        <div className='flex justify-between'>
-          <span className='text-xl font-semibold text-white p-2'>
-            Add Expense
-          </span>
-          <button
-            className='p-2 shadow py-1 text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out flex items-center justify-center gap-2 rounded-lg border'
-            type='button'
-            onClick={handleOpenModal}
-          >
-            <CgAdd className='self-center' /> <span>Add Expense</span>
-          </button>
-        </div>
+    <div className='bg-white shadow-lg border border-gray-200 rounded-lg overflow-hidden'>
+      <div className='bg-gradient-to-r from-blue-500 to-blue-600 p-2 flex justify-between items-center'>
+        <h2 className='text-xl sm:text-2xl font-semibold text-white'>
+          Add Expense
+        </h2>
+        <button
+          className='flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out'
+          type='button'
+          onClick={handleOpenModal}
+        >
+          <CgAdd className='w-6 h-6' />
+          <span className='hidden sm:block'>Add Expense</span>
+        </button>
       </div>
-      <div className='p-0'>
+      <div>
         {isModalOpen && <ExpenseModal onClose={handleCloseModal} />}
         <DataTable data={data} onDeleteExpense={onDeleteExpense} />
       </div>

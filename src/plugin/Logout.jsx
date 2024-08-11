@@ -4,7 +4,7 @@ const Logout = ({
   tag: Tag = "button",
   text = "Logout",
   className = "",
-  onClick,
+  onClick = () => {}, // Provide a default empty function for onClick
 }) => {
   return (
     <Tag className={className} onClick={onClick}>
@@ -17,7 +17,7 @@ const Logout = ({
 Logout.propTypes = {
   tag: PropTypes.elementType,
   className: PropTypes.string,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   onClick: PropTypes.func,
 };
 

@@ -8,7 +8,7 @@ import { updateUserDetails } from "../../services/services";
 import useLoader from "../../hooks/useLoader";
 import useToast from "../../hooks/useToast";
 
-const HoverableName = ({ name, onNameChange }) => {
+const HoverableName = ({ name = "Default Name", onNameChange }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [setLoader, LoaderComp] = useLoader(false);
@@ -69,7 +69,7 @@ const HoverableName = ({ name, onNameChange }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {name || "Default Name"}
+        {name}
         {isHovered && (
           <span className='cursor-pointer' onClick={handleEditClick}>
             <BiEditAlt className='mt-1' />
@@ -140,13 +140,10 @@ const HoverableName = ({ name, onNameChange }) => {
   );
 };
 
+// PropTypes validation
 HoverableName.propTypes = {
   name: PropTypes.string,
   onNameChange: PropTypes.func.isRequired,
-};
-
-HoverableName.defaultProps = {
-  name: "Default Name",
 };
 
 export default HoverableName;
