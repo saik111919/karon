@@ -81,10 +81,10 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
 
   return (
     <div className='bg-white shadow-lg rounded-2xl border overflow-hidden'>
-      <div className='flex flex-wrap items-center justify-between p-2 border-b border-gray-200 bg-gray-50'>
+      <div className='flex flex-wrap items-center justify-between p-2 border-b border-gray-200 bg-gray-50 gap-1'>
         <input
           type='month'
-          className='flex-grow sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+          className='flex-1 sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
           value={
             selectedMonth.length === 6
               ? `${selectedMonth.slice(0, 5)}0${selectedMonth.slice(5)}`
@@ -100,13 +100,13 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
           }
         />
         <button
-          className='ml-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out'
+          className='flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out'
           onClick={handleExport}
         >
           Export To Excel
         </button>
         <select
-          className='ml-4 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+          className='flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
           value={selectedDate}
           onChange={(event) => setSelectedDate(event.target.value)}
         >
@@ -124,7 +124,7 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
         </p>
       ) : (
         <div className='overflow-x-auto'>
-          <div className='lg:max-h-[65vh] max-h-[70vh] overflow-y-auto'>
+          <div className='lg:max-h-[68vh] max-h-[70vh] overflow-y-auto'>
             <table className='min-w-full divide-y divide-gray-200'>
               <thead className='bg-gray-100 sticky top-0'>
                 <tr>
