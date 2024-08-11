@@ -80,11 +80,11 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
   };
 
   return (
-    <div>
-      <div className='d-flex justify-content-between align-items-center border rounded-none flex-wrap overflow-y-hidden overflow-x-auto'>
+    <div className='bg-white shadow-lg rounded-lg overflow-hidden'>
+      <div className='flex flex-wrap items-center justify-between px-2 py-2 border-b border-gray-200'>
         <input
           type='month'
-          className='form-control rounded-none flex-1 p-3'
+          className='flex-grow sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
           value={
             selectedMonth.length === 6
               ? `${selectedMonth.slice(0, 5)}0${selectedMonth.slice(5)}`
@@ -100,13 +100,13 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
           }
         />
         <button
-          className='btn btn-primary rounded-none flex-1 p-3'
+          className='flex-grow sm:flex-grow-0 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out'
           onClick={handleExport}
         >
-          <div className='text-truncate'>Export To Excel</div>
+          Export To Excel
         </button>
         <select
-          className='form-select flex-1 rounded-none p-3'
+          className='flex-grow sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
           value={selectedDate}
           onChange={(event) => setSelectedDate(event.target.value)}
         >
@@ -119,60 +119,59 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
         </select>
       </div>
       {filteredTransactions.length === 0 ? (
-        <p className='text-center border p-3'>
+        <p className='text-center p-4 text-gray-500'>
           No data available for the selected month.
         </p>
       ) : (
-        <div
-          className='table-responsive overflow-x-hidden overflow-y-auto'
-          style={{
-            maxHeight: "45em",
-          }}
-        >
-          <table className='table table-striped table-bordered table-hover mt-0 w-full divide-y '>
-            <thead className='table-dark sticky top-0 z-10'>
-              <tr>
-                <th className='py-2 px-2 text-start'>Title</th>
-                <th className='py-2 px-2 text-start'>Amount</th>
-                <th className='py-2 px-2 text-start'>Type</th>
-                <th className='py-2 px-2 text-start'>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTransactions.map((transaction) => (
-                <tr key={transaction._id}>
-                  <td
-                    className='py-2 px-2 text-start text-truncate'
-                    style={{ maxWidth: "150px" }}
-                  >
-                    <div className='text-truncate'>{transaction.title}</div>
-                  </td>
-                  <td className='py-2 px-2 text-start'>{transaction.amount}</td>
-                  <td className='py-2 px-2 text-start'>
-                    <span
-                      className={`badge ${
-                        transaction.type === "spent"
-                          ? "bg-danger"
-                          : "bg-success"
-                      }`}
+        <div className='overflow-x-auto'>
+          <div className='lg:max-h-[65vh] max-h-[70vh] overflow-y-auto'>
+            <table className='min-w-full divide-y divide-gray-200'>
+              <thead className='bg-gray-50 sticky top-0'>
+                <tr>
+                  {["Title", "Amount", "Type", "Action"].map((header) => (
+                    <th
+                      key={header}
+                      className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
                     >
-                      {transaction.type}
-                    </span>
-                  </td>
-                  <td className='py-2 px-2 text-start'>
-                    <button
-                      className='btn btn-danger'
-                      onClick={() => {
-                        onDeleteExpense(transaction._id);
-                      }}
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </td>
+                      {header}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className='bg-white divide-y divide-gray-200'>
+                {filteredTransactions.map((tx) => (
+                  <tr key={tx._id}>
+                    <td className='px-6 py-4 text-sm font-medium text-gray-900 truncate'>
+                      {tx.title}
+                    </td>
+                    <td className='px-6 py-4 text-sm text-gray-900'>
+                      {tx.amount}
+                    </td>
+                    <td className='px-6 py-4'>
+                      <span
+                        className={`px-2 inline-flex text-xs font-semibold rounded-full ${
+                          tx.type === "spent"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-green-100 text-green-800"
+                        }`}
+                      >
+                        {tx.type}
+                      </span>
+                    </td>
+                    <td className='px-6 py-4 text-sm font-medium'>
+                      <button
+                        className='text-red-600 hover:text-red-900'
+                        onClick={() => onDeleteExpense(tx._id)}
+                        aria-label={`Delete ${tx.title}`}
+                      >
+                        <FaTrashAlt />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

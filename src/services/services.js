@@ -37,3 +37,15 @@ export const updateUserDetails = (user) => {
 export const getUserDetails = () => {
   return client.get(`${BASE_URL}/api/user-data`, config());
 };
+export const getAllUser = () => {
+  return client.get(`${BASE_URL}/api/manage-users`, config());
+};
+export const editUserById = () => {
+  return client.get(`${BASE_URL}/api/manage-users`, config());
+};
+export const getUserById = (id) => {
+  return client.get(`${BASE_URL}/api/manage-users/${id}`, config());
+};
+export const deleteUserById = (id) => {
+  return client.get(`${BASE_URL}/api/manage-users/${id}`, config());
+};

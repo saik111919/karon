@@ -21,13 +21,13 @@ const ExpenseForm = ({ data, onDeleteExpense, fetchTransactions }) => {
 
   return (
     <div className='bg-white shadow-lg border border-gray-200 overflow-hidden'>
-      <div className='bg-gradient-to-r from-blue-500 to-blue-600 p-0'>
+      <div className='bg-gradient-to-r from-blue-500 to-blue-600 p-2 border'>
         <div className='flex justify-between'>
-          <span className='text-xl font-semibold text-white p-3'>
+          <span className='text-xl font-semibold text-white p-2'>
             Add Expense
           </span>
           <button
-            className='p-3 shadow py-1 text-white rounded-0 bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out flex items-center justify-center gap-2'
+            className='p-2 shadow py-1 text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out flex items-center justify-center gap-2 rounded-lg border'
             type='button'
             onClick={handleOpenModal}
           >

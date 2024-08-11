@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { CgCloseO } from "react-icons/cg";
 import { AddTransactions } from "../../services/services";
 import useToast from "../../hooks/useToast";
-import FloatingLabelInput from "../../modules/FloatingLabelInput";
+import FormField from "./FormField";
+import SelectField from "./SelectField";
 
 const ExpenseModal = ({ onClose }) => {
   const {
@@ -30,100 +31,62 @@ const ExpenseModal = ({ onClose }) => {
   };
 
   return (
-    <>
-      <div className='modal fade show d-block' tabIndex='-1' role='dialog'>
-        <div
-          className='modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable'
-          role='document'
+    <div className='fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50'>
+      <div className='relative p-5 w-full max-w-lg bg-white rounded-md shadow-lg'>
+        <button
+          onClick={() => onClose(false)}
+          className='absolute top-3 right-3 text-gray-400 hover:text-gray-500'
         >
-          <div className='modal-content'>
-            <div className='modal-header flex items-center justify-between p-4 border-b'>
-              <h5 className='modal-title text-lg font-semibold'>Add Expense</h5>
-              <button
-                type='button'
-                className=' transition-colors duration-200'
-                onClick={() => onClose(false)}
-                aria-label='Close'
-              >
-                <CgCloseO className='w-6 h-6' />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className='modal-body p-4'>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  <div>
-                    <FloatingLabelInput
-                      type='text'
-                      name='title'
-                      label='Title'
-                      register={register("title", {
-                        required: {
-                          value: true,
-                          message: "Title is required.",
-                        },
-                      })}
-                      error={errors["title"]}
-                    />
-                  </div>
-                  <div>
-                    <FloatingLabelInput
-                      type='number'
-                      name='amount'
-                      label='Amount'
-                      register={register("amount", {
-                        required: {
-                          value: true,
-                          message: "Amount is required.",
-                        },
-                      })}
-                      error={errors["amount"]}
-                    />
-                  </div>
-                  <div className='col-span-full'>
-                    <label htmlFor='type' className='block text-lg mb-1'>
-                      Transaction Type
-                    </label>
-                    <select
-                      className='form-control peer w-full py-3 px-2 border rounded-md shadow-sm'
-                      id='type'
-                      {...register("type", {
-                        required: { value: true, message: "Type is required." },
-                      })}
-                    >
-                      <option value=''>Select a type</option>
-                      <option value='spent'>Spent</option>
-                      <option value='credited'>Credited</option>
-                    </select>
-                    {errors.type && (
-                      <div className='text-red-500 text-sm mt-1'>
-                        {errors.type.message}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className='modal-footer p-0 flex'>
-                <button
-                  type='submit'
-                  className='flex-1 py-3 border-t border-r rounded-bl m-0 bg-blue-700'
-                >
-                  Save
-                </button>
-                <button
-                  type='button'
-                  className='flex-1 py-3 border-t rounded-br m-0 bg-gray-700'
-                  onClick={() => onClose(false)}
-                >
-                  Close
-                </button>
-              </div>
-            </form>
+          <CgCloseO className='h-6 w-6' />
+        </button>
+        <h3 className='text-lg sm:text-xl font-semibold text-gray-900 mb-4'>
+          Add Expense
+        </h3>
+        <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+          <FormField
+            id='title'
+            label='Title'
+            register={register}
+            validation={{ required: "Title is required." }}
+            error={errors.title?.message}
+          />
+          <FormField
+            id='amount'
+            label='Amount'
+            type='number'
+            register={register}
+            validation={{ required: "Amount is required." }}
+            error={errors.amount?.message}
+          />
+          <SelectField
+            id='type'
+            label='Transaction Type'
+            register={register}
+            validation={{ required: "Type is required." }}
+            options={[
+              { value: "spent", label: "Spent" },
+              { value: "credited", label: "Credited" },
+            ]}
+            error={errors.type?.message}
+          />
+          <div className='flex lg:justify-end flex-col sm:flex-row gap-2'>
+            <button
+              type='submit'
+              className='w-full sm:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+            >
+              Save
+            </button>
+            <button
+              type='button'
+              onClick={() => onClose(false)}
+              className='w-full sm:w-auto bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500'
+            >
+              Close
+            </button>
           </div>
-        </div>
+        </form>
       </div>
-      <div className='modal-backdrop fade show'></div>
-    </>
+    </div>
   );
 };
 
