@@ -1,43 +1,45 @@
 import { lazy } from "react";
-import Login from "../page/PageAuthentication/Login.jsx";
-const Home = lazy(() => import("../page/Home.jsx"));
-const ExpenseTracker = lazy(() =>
-  import("../page/expanseTracker/ExpenseTracker.jsx")
-);
-const Settings = lazy(() => import("../page/settings/Settings.jsx"));
+import Login from "../pages/Auth/Login.jsx";
+import Signup from "../pages/Auth/Signup.jsx";
+const Home = lazy(() => import("../pages/Home/Home"));
+const ExpenseTraker = lazy(() => import("../pages/Expense/ExpenseTraker"));
+const Settings = lazy(() => import("../pages/settings/Settings"));
 
 const routes = [
   {
-    path: "/karon/",
+    path: "/",
     Component: Home,
+    name: "Home",
     isProtected: true,
     isHeader: true,
-    title: "Home",
-    icon: "HomeIcon",
   },
   {
-    path: "/karon/expense",
-    Component: ExpenseTracker,
+    path: "/expense",
+    Component: ExpenseTraker,
+    name: "Expense Traker",
     isProtected: true,
     isHeader: true,
-    title: "Expense Tracker",
-    icon: "ExpenseIcon",
   },
   {
-    path: "/karon/settings",
-    Component: Settings,
-    isProtected: true,
-    isHeader: true,
-    title: "Settings",
-    icon: "SettingIcon",
-  },
-  {
-    path: "/karon/login",
+    path: "/login",
     Component: Login,
+    name: "Login",
     isProtected: false,
     isHeader: false,
-    title: "Login",
-    icon: "LoginIcon",
+  },
+  {
+    path: "/signup",
+    Component: Signup,
+    name: "Signup",
+    isProtected: false,
+    isHeader: false,
+  },
+  {
+    path: "/settings",
+    Component: Settings,
+    name: "Settings",
+    isProtected: true,
+    isHeader: true,
   },
 ];
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import { GetTransactions } from "../services/services";
 import useLoader from "./useLoader";
+import { GetTransactions } from "../services/services";
 
 const useTransaction = () => {
   const [data, setData] = useState([]);

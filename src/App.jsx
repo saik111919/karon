@@ -1,15 +1,13 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./App.css";
-import { ToastProvider } from "./component/Toast/ToastManager";
 import AppRoutes from "./routes/AppRoutes";
-
-function App() {
+import { ToastProvider } from "./plugin/Toast/ToastContext";
+const App = () => {
   return (
-    <>
-      <ToastProvider>
-        <AppRoutes />
-      </ToastProvider>
-    </>
+    <ToastProvider>
+      <AppRoutes />
+    </ToastProvider>
   );
-}
-
+};
 export default App;
