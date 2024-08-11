@@ -1,45 +1,26 @@
-import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useNavigate, useLocation } from "react-router-dom";
-import { iconLinks } from "../utils/constent";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Protect = ({ CMP, title, icon, isProtected }) => {
+const Protect = ({ Component, name, isProtected }) => {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const location = useLocation();
-  const token = sessionStorage.getItem("token");
-
   useEffect(() => {
-    document.title = title;
-
+    document.title = name;
     if (isProtected) {
       if (!token) {
-        navigate("/karon/login");
-      }
-    } else {
-      const unprotectedRoutes = ["/karon/login", "/karon/signup"];
-      if (token && unprotectedRoutes.includes(location.pathname)) {
-        navigate("/karon/"); // Redirect to home page or any other protected page
+        navigate("/login");
       }
     }
+  }, [name, navigate, token, isProtected]);
 
-    if (icon) {
-      let link =
-        document.querySelector("link[rel*='icon']") ||
-        document.createElement("link");
-      link.rel = "icon";
-      link.href = iconLinks(icon);
-      document.head.appendChild(link);
-    }
-  }, [title, icon, isProtected, token, navigate, location.pathname]);
-
-  return <CMP />;
+  return <Component />;
 };
 
 Protect.propTypes = {
-  CMP: PropTypes.elementType.isRequired, // Validate that CMP is a React component
-  title: PropTypes.string.isRequired, // Validate that title is a string
-  icon: PropTypes.string, // Validate that icon is a string (optional)
-  isProtected: PropTypes.bool.isRequired, // Validate that isProtected is a boolean
+  Component: PropTypes.elementType.isRequired,
+  name: PropTypes.string.isRequired,
+  isProtected: PropTypes.bool.isRequired,
 };
 
 export default Protect;

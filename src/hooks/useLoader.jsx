@@ -12,7 +12,7 @@ const useLoader = (initialLoaderState = false) => {
 
     return (
       loader && (
-        <div className='fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-55 z-50'>
+        <div className='fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-55 z-55'>
           <div
             className={`loader ease-linear rounded-full border-8 ${loaderColor} ${loaderSize} animate-spin`}
           ></div>

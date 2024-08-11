@@ -1,50 +1,44 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "../layout/Layout.jsx";
 import routes from "./routes";
-import NoPage from "../plugin/NoPage";
+import Layout from "../layout/Layout";
 import Protect from "../plugin/Protect";
 
 const AppRoutes = () => {
+  // Split routes based on isHeader
+  const headerRoutes = routes.filter((route) => route.isHeader);
+  const otherRoutes = routes.filter((route) => !route.isHeader);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/karon/' element={<Layout />}>
-          {routes.map(
-            ({ path, Component, title, icon, isHeader, isProtected }, index) =>
-              isHeader && (
-                <Route
-                  key={index}
-                  path={path}
-                  element={
-                    <Protect
-                      CMP={Component}
-                      title={title}
-                      icon={icon}
-                      isProtected={isProtected}
-                    />
-                  }
+        <Route path='/' element={<Layout />}>
+          {headerRoutes.map(({ path, Component, name, isProtected }, index) => (
+            <Route
+              key={index}
+              path={path}
+              element={
+                <Protect
+                  Component={Component}
+                  name={name}
+                  isProtected={isProtected}
                 />
-              )
-          )}
+              }
+            />
+          ))}
         </Route>
-        {routes.map(
-          ({ path, Component, title, icon, isHeader, isProtected }, index) =>
-            !isHeader && (
-              <Route
-                key={index}
-                path={path}
-                element={
-                  <Protect
-                    CMP={Component}
-                    title={title}
-                    icon={icon}
-                    isProtected={isProtected}
-                  />
-                }
+        {otherRoutes.map(({ path, Component, name, isProtected }, index) => (
+          <Route
+            key={index}
+            path={path}
+            element={
+              <Protect
+                Component={Component}
+                name={name}
+                isProtected={isProtected}
               />
-            )
-        )}
-        <Route path='*' element={<NoPage />} />
+            }
+          />
+        ))}
       </Routes>
     </BrowserRouter>
   );

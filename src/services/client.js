@@ -6,7 +6,7 @@ instance.interceptors.response.use(
   (successRes) => successRes,
   ({ response }) => {
     if (response?.status === 401) {
-      sessionStorage.clear();
+      localStorage.clear();
       window.location.href = "/login";
     }
     return Promise.reject(response);

@@ -3,7 +3,7 @@ import { client } from "./client";
 // export const BASE_URL = "http://localhost:4000";
 export const BASE_URL = "https://my-app-ebon-omega.vercel.app";
 
-const UserToken = () => sessionStorage.getItem("token");
+const UserToken = () => localStorage.getItem("token");
 
 export const config = () => ({
   headers: {
@@ -36,4 +36,16 @@ export const updateUserDetails = (user) => {
 
 export const getUserDetails = () => {
   return client.get(`${BASE_URL}/api/user-data`, config());
+};
+export const getAllUser = () => {
+  return client.get(`${BASE_URL}/api/manage-users`, config());
+};
+export const editUserById = () => {
+  return client.get(`${BASE_URL}/api/manage-users`, config());
+};
+export const getUserById = (id) => {
+  return client.get(`${BASE_URL}/api/manage-users/${id}`, config());
+};
+export const deleteUserById = (id) => {
+  return client.get(`${BASE_URL}/api/manage-users/${id}`, config());
 };

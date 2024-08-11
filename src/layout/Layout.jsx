@@ -1,26 +1,27 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
-import { Suspense } from "react";
+import "./layout.css";
 
 const Layout = () => {
   return (
-    <>
-      <div className='flex lg:flex-col flex-col-reverse h-screen w-screen'>
-        <NavBar />
-        <Suspense
-          fallback={
-            <div className='text-center w-full h-screen flex items-center justify-center'>
-              <div className='loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-20 w-20'></div>
-            </div>
-          }
-        >
-          <main className='overflow-y-auto px-1 w-full page-container overflow-x-hidden flex-grow lg:m-0 mb-12 lg:pb-0 pb-2 lg:shadow-none shadow-lg'>
+    <div className='flex flex-col min-h-screen bg-gray-100'>
+      <NavBar />
+      <Suspense fallback={<LoadingSpinner />}>
+        <main className='flex-grow overflow-x-hidden overflow-y-auto'>
+          <div className='max-w-full h-full'>
             <Outlet />
-          </main>
-        </Suspense>
-      </div>
-    </>
+          </div>
+        </main>
+      </Suspense>
+    </div>
   );
 };
+
+const LoadingSpinner = () => (
+  <div className='flex items-center justify-center h-screen'>
+    <div className='animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500'></div>
+  </div>
+);
 
 export default Layout;

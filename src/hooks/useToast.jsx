@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { ToastContext } from "../component/Toast/ToastManager";
+import ToastContext from "../plugin/Toast/ToastContext";
 
-const useToast = () => {
-  return useContext(ToastContext);
-};
+const useToast = () => useContext(ToastContext);
+
 export default useToast;
