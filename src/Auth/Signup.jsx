@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
-import { BiLogInCircle } from "react-icons/bi";
-import { FaEnvelope } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaUserPlus, FaEnvelope } from "react-icons/fa";
+import { Link } from "react-router-dom"; // Assuming you're using React Router
 import Password from "../components/PasswordComponent/Password";
 
-const Login = () => {
+const Signup = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
   function onSubmit(data) {
@@ -20,11 +20,11 @@ const Login = () => {
       <div className="bg-gray-800 w-full max-w-md rounded-xl shadow-2xl overflow-hidden">
         <div className="p-8">
           <div className="text-center mb-8">
-            <BiLogInCircle className="text-6xl text-blue-500 mx-auto animate-pulse" />
-            <h2 className="text-3xl font-bold mt-4 text-blue-400">
-              Welcome Back
+            <FaUserPlus className="text-6xl text-green-500 mx-auto animate-pulse" />
+            <h2 className="text-3xl font-bold mt-4 text-green-400">
+              Create Account
             </h2>
-            <p className="text-gray-400 mt-2">Login to your account</p>
+            <p className="text-gray-400 mt-2">Sign up for a new account</p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -43,7 +43,7 @@ const Login = () => {
                     required: "Email is required",
                     pattern: /^\S+@\S+$/i,
                   })}
-                  className="w-full py-2 pl-10 pr-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 pl-10 pr-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="Enter your email"
                 />
               </div>
@@ -61,6 +61,7 @@ const Login = () => {
                 Password
               </label>
               <Password
+                name="password"
                 register={register("password", {
                   required: "Password is required",
                   minLength: 6,
@@ -72,24 +73,40 @@ const Login = () => {
                 </p>
               )}
             </div>
-            {/* <div className="text-right">
-              <a href="#" className="text-sm text-blue-500 hover:underline">
-                Forgot password?
-              </a>
-            </div> */}
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-400 mb-2"
+              >
+                Confirm Password
+              </label>
+              <Password
+                name="confirmPassword"
+                register={register("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (val) =>
+                    val === watch("password") || "Passwords do not match",
+                })}
+              />
+              {errors.confirmPassword && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
+            </div>
             <button
               type="submit"
-              className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors duration-300"
+              className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors duration-300"
             >
-              Sign In
+              Sign Up
             </button>
           </form>
         </div>
         <div className="px-8 py-4 bg-gray-700 border-t border-gray-600 text-center">
           <p className="text-sm text-gray-400">
-            {"Don't"} have an account?{" "}
-            <Link to="/signup" className="text-blue-500 hover:underline">
-              Sign up
+            Already have an account?{" "}
+            <Link to="/login" className="text-green-500 hover:underline">
+              Log in
             </Link>
           </p>
         </div>
@@ -98,4 +115,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

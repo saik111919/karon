@@ -1,17 +1,27 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 
 const Protected = ({ Component, isProtected, name }) => {
+  document.body.classList.add("bg-black");
+  document.body.classList.add("text-white");
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = true;
+  // const token = localStorage.getItem("token");
   useEffect(() => {
     document.title = name ?? "Karon";
-    if (!token) {
-      navigate("/login");
+    if (isProtected) {
+      if (!token) {
+        navigate("/login");
+      }
     }
   }, [token, navigate, isProtected, name]);
-  return <Component />;
+  return (
+    <Suspense fallback={<Loader />}>
+      <Component />
+    </Suspense>
+  );
 };
 
 Protected.propTypes = {
