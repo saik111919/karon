@@ -1,9 +1,10 @@
 import { lazy } from "react";
-import Login from "../pages/Auth/Login.jsx";
-import Signup from "../pages/Auth/Signup.jsx";
+
 const Home = lazy(() => import("../pages/Home/Home"));
 const ExpenseTraker = lazy(() => import("../pages/Expense/ExpenseTraker"));
 const Settings = lazy(() => import("../pages/settings/Settings"));
+const Login = lazy(() => import("../pages/Auth/Login"));
+const Signup = lazy(() => import("../pages/Auth/Signup"));
 
 const routes = [
   {

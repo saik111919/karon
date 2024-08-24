@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { FaTrashAlt } from "react-icons/fa";
 import * as XLSX from "xlsx";
@@ -7,40 +7,35 @@ import { CgSoftwareDownload } from "react-icons/cg";
 const DataTable = ({ data = [], onDeleteExpense }) => {
   const getCurrentMonth = () => {
     const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    return `${year}-${month}`;
-  };
-
-  const currentMonth = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, "0");
-    return `${year}-${month}`;
+    return date.toISOString().slice(0, 7);
   };
 
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
   const [selectedDate, setSelectedDate] = useState("");
 
-  const filteredData = data.find(
-    (item) => item.monthYear === selectedMonth
-  ) || { transactions: [] };
+  const filteredData = useMemo(() => {
+    const found = data.find(
+      (item) => item.monthYear === selectedMonth.replace("-0", "-")
+    );
+    return found || { transactions: [] };
+  }, [data, selectedMonth]);
 
-  const uniqueDays = Array.from(
-    new Set(
-      filteredData.transactions.map((transaction) =>
-        new Date(transaction.createdAt).getDate()
+  const uniqueDays = useMemo(() => {
+    return Array.from(
+      new Set(
+        filteredData.transactions.map((tx) => new Date(tx.createdAt).getDate())
       )
-    )
-  ).sort((a, b) => a - b);
+    ).sort((a, b) => a - b);
+  }, [filteredData]);
 
-  const filteredTransactions = selectedDate
-    ? filteredData.transactions.filter(
-        (transaction) =>
-          new Date(transaction.createdAt).getDate() ===
-          parseInt(selectedDate, 10)
-      )
-    : filteredData.transactions;
+  const filteredTransactions = useMemo(() => {
+    if (selectedDate) {
+      return filteredData.transactions.filter(
+        (tx) => new Date(tx.createdAt).getDate() === parseInt(selectedDate, 10)
+      );
+    }
+    return filteredData.transactions;
+  }, [filteredData, selectedDate]);
 
   useEffect(() => {
     setSelectedDate("");
@@ -76,43 +71,33 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
       };
     }
 
-    const dateStr = new Date().toLocaleDateString().replace(/\//g, "-");
+    const dateStr = new Date().toISOString().slice(0, 10);
     XLSX.writeFile(workbook, `transactions-${dateStr}.xlsx`);
   };
 
   return (
-    <div className='bg-white shadow-lg rounded-2xl border overflow-hidden'>
-      <div className='flex flex-wrap items-center justify-between p-2 border-b border-gray-200 bg-gray-50 gap-1'>
+    <div className="bg-white shadow-lg rounded-2xl border overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between p-4 border-b border-gray-200 bg-gray-50 gap-2">
         <input
-          type='month'
-          className='flex-1 sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-          value={
-            selectedMonth.length === 6
-              ? `${selectedMonth.slice(0, 5)}0${selectedMonth.slice(5)}`
-              : selectedMonth
-          }
-          max={currentMonth()}
-          onChange={(event) =>
-            setSelectedMonth(
-              event.target.value.length === 7
-                ? event.target.value.replace("-0", "-")
-                : event.target.value
-            )
-          }
+          type="month"
+          className="flex-1 sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={selectedMonth}
+          max={getCurrentMonth()}
+          onChange={(e) => setSelectedMonth(e.target.value)}
         />
         <button
-          className='flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out flex align-middle justify-center items-center'
+          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out flex align-middle justify-center items-center gap-2"
           onClick={handleExport}
         >
-          <CgSoftwareDownload className='w-6 h-6' />
-          <div className='hidden sm:block'>Export To Excel</div>
+          <CgSoftwareDownload className="w-6 h-6" />
+          <div className="hidden sm:block">Export To Excel</div>
         </button>
         <select
-          className='flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+          className="flex-1 sm:flex-grow-0 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={selectedDate}
-          onChange={(event) => setSelectedDate(event.target.value)}
+          onChange={(e) => setSelectedDate(e.target.value)}
         >
-          <option value=''>All Days</option>
+          <option value="">All Days</option>
           {uniqueDays.map((day) => (
             <option key={day} value={day}>
               {day}
@@ -121,35 +106,35 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
         </select>
       </div>
       {filteredTransactions.length === 0 ? (
-        <p className='text-center p-4 text-gray-500'>
+        <p className="text-center p-8 text-gray-500">
           No data available for the selected month.
         </p>
       ) : (
-        <div className='overflow-x-auto'>
-          <div className='lg:max-h-[68vh] max-h-[70vh] overflow-y-auto'>
-            <table className='min-w-full divide-y divide-gray-200'>
-              <thead className='bg-gray-100 sticky top-0'>
+        <div className="overflow-x-auto">
+          <div className="lg:max-h-[calc(100vh-250px)] max-h-[70vh] overflow-y-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-100 sticky top-0">
                 <tr>
                   {["Title", "Amount", "Type", "Action"].map((header) => (
                     <th
                       key={header}
-                      className='px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider'
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                     >
                       {header}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className='bg-white divide-y divide-gray-200'>
+              <tbody className="bg-white divide-y divide-gray-200">
                 {filteredTransactions.map((tx) => (
-                  <tr key={tx._id}>
-                    <td className='px-4 py-3 text-sm font-medium text-gray-900 truncate'>
+                  <tr key={tx._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {tx.title}
                     </td>
-                    <td className='px-4 py-3 text-sm text-gray-900'>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {tx.amount}
                     </td>
-                    <td className='px-4 py-3'>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                           tx.type === "spent"
@@ -160,9 +145,9 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
                         {tx.type}
                       </span>
                     </td>
-                    <td className='px-4 py-3 text-sm font-medium'>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
-                        className='text-red-600 hover:text-red-900'
+                        className="text-red-600 hover:text-red-900 transition duration-150 ease-in-out"
                         onClick={() => onDeleteExpense(tx._id)}
                         aria-label={`Delete ${tx.title}`}
                       >

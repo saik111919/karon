@@ -41,29 +41,29 @@
 //   return (
 //     <>
 //       <LoaderComp />
-//       <div className='min-h-screen w-full flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 p-4'>
-//         <div className='bg-white rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-md'>
-//           <div className='text-center mb-8'>
-//             <BiUserPlus className='text-5xl text-green-600 mx-auto' />
-//             <h2 className='text-2xl sm:text-3xl font-bold mt-2'>
+//       <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 p-4">
+//         <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg lg:max-w-md">
+//           <div className="text-center mb-8">
+//             <BiUserPlus className="text-5xl text-green-600 mx-auto" />
+//             <h2 className="text-2xl sm:text-3xl font-bold mt-2">
 //               Create an Account
 //             </h2>
-//             <p className='text-gray-600 text-sm sm:text-base'>Join us today</p>
+//             <p className="text-gray-600 text-sm sm:text-base">Join us today</p>
 //           </div>
 //           <form
 //             onSubmit={handleSubmit(onSubmit)}
-//             className='space-y-4 sm:space-y-6'
+//             className="space-y-4 sm:space-y-6"
 //           >
 //             <div>
 //               <label
-//                 htmlFor='name'
-//                 className='block text-sm font-medium text-gray-700 mb-1'
+//                 htmlFor="name"
+//                 className="block text-sm font-medium text-gray-700 mb-1"
 //               >
 //                 Full Name
 //               </label>
 //               <input
-//                 type='text'
-//                 id='name'
+//                 type="text"
+//                 id="name"
 //                 {...register("name", {
 //                   required: "Full name is required",
 //                   minLength: {
@@ -71,24 +71,24 @@
 //                     message: "Name must be at least 2 characters",
 //                   },
 //                 })}
-//                 className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
+//                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
 //               />
 //               {errors.name && (
-//                 <p className='mt-1 text-xs text-red-500'>
+//                 <p className="mt-1 text-xs text-red-500">
 //                   {errors.name.message}
 //                 </p>
 //               )}
 //             </div>
 //             <div>
 //               <label
-//                 htmlFor='email'
-//                 className='block text-sm font-medium text-gray-700 mb-1'
+//                 htmlFor="email"
+//                 className="block text-sm font-medium text-gray-700 mb-1"
 //               >
 //                 Email
 //               </label>
 //               <input
-//                 type='email'
-//                 id='email'
+//                 type="email"
+//                 id="email"
 //                 {...register("email", {
 //                   required: "Email is required",
 //                   pattern: {
@@ -96,25 +96,25 @@
 //                     message: "Invalid email address",
 //                   },
 //                 })}
-//                 className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
+//                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
 //               />
 //               {errors.email && (
-//                 <p className='mt-1 text-xs text-red-500'>
+//                 <p className="mt-1 text-xs text-red-500">
 //                   {errors.email.message}
 //                 </p>
 //               )}
 //             </div>
 //             <div>
 //               <label
-//                 htmlFor='password'
-//                 className='block text-sm font-medium text-gray-700 mb-1'
+//                 htmlFor="password"
+//                 className="block text-sm font-medium text-gray-700 mb-1"
 //               >
 //                 Password
 //               </label>
-//               <div className='relative'>
+//               <div className="relative">
 //                 <input
 //                   type={passwordVisible ? "text" : "password"}
-//                   id='password'
+//                   id="password"
 //                   {...register("password", {
 //                     required: "Password is required",
 //                     minLength: {
@@ -122,68 +122,68 @@
 //                       message: "Password must be at least 6 characters",
 //                     },
 //                   })}
-//                   className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
+//                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
 //                 />
 //                 <button
-//                   type='button'
+//                   type="button"
 //                   onClick={() => setPasswordVisible(!passwordVisible)}
-//                   className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
+//                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
 //                 >
 //                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
 //                 </button>
 //               </div>
 //               {errors.password && (
-//                 <p className='mt-1 text-xs text-red-500'>
+//                 <p className="mt-1 text-xs text-red-500">
 //                   {errors.password.message}
 //                 </p>
 //               )}
 //             </div>
 //             <div>
 //               <label
-//                 htmlFor='confirmPassword'
-//                 className='block text-sm font-medium text-gray-700 mb-1'
+//                 htmlFor="confirmPassword"
+//                 className="block text-sm font-medium text-gray-700 mb-1"
 //               >
 //                 Confirm Password
 //               </label>
-//               <div className='relative'>
+//               <div className="relative">
 //                 <input
 //                   type={confirmPasswordVisible ? "text" : "password"}
-//                   id='confirmPassword'
+//                   id="confirmPassword"
 //                   {...register("confirmPassword", {
 //                     required: "Please confirm your password",
 //                     validate: (value) =>
 //                       value === password || "Passwords do not match",
 //                   })}
-//                   className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
+//                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
 //                 />
 //                 <button
-//                   type='button'
+//                   type="button"
 //                   onClick={() =>
 //                     setConfirmPasswordVisible(!confirmPasswordVisible)
 //                   }
-//                   className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
+//                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
 //                 >
 //                   {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
 //                 </button>
 //               </div>
 //               {errors.confirmPassword && (
-//                 <p className='mt-1 text-xs text-red-500'>
+//                 <p className="mt-1 text-xs text-red-500">
 //                   {errors.confirmPassword.message}
 //                 </p>
 //               )}
 //             </div>
 //             <button
-//               type='submit'
-//               className='w-full bg-green-600 text-white rounded-lg py-2 sm:py-3 text-sm sm:text-base font-semibold hover:bg-green-700 transition duration-300'
+//               type="submit"
+//               className="w-full bg-green-600 text-white rounded-lg py-2 sm:py-3 text-sm sm:text-base font-semibold hover:bg-green-700 transition duration-300"
 //             >
 //               Sign Up
 //             </button>
 //           </form>
-//           <p className='mt-6 text-center text-sm text-gray-600'>
+//           <p className="mt-6 text-center text-sm text-gray-600">
 //             Already have an account?{" "}
 //             <Link
-//               to='/login'
-//               className='font-medium text-green-600 hover:underline'
+//               to="/login"
+//               className="font-medium text-green-600 hover:underline"
 //             >
 //               Log in
 //             </Link>
@@ -195,18 +195,16 @@
 // };
 
 // export default Signup;
+
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { FaUserPlus, FaEnvelope, FaUser } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom"; // Assuming you're using React Router
+import Password from "../../component/Password/Password";
+import useToast from "../../hooks/useToast";
 import useLoader from "../../hooks/useLoader";
 import { registerUser } from "../../services/services";
-import useToast from "../../hooks/useToast";
-import { BiUserPlus } from "react-icons/bi";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const {
     register,
     handleSubmit,
@@ -233,161 +231,130 @@ const Signup = () => {
       });
   };
 
-  const password = watch("password");
-
   return (
-    <>
+    <main className="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center p-4">
       <LoaderComp />
-      <div className='min-h-screen w-full flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 p-4'>
-        <div className='bg-white rounded-lg shadow-xl p-6 w-full max-w-lg lg:max-w-md'>
-          <div className='text-center mb-8'>
-            <BiUserPlus className='text-5xl text-green-600 mx-auto' />
-            <h2 className='text-2xl sm:text-3xl font-bold mt-2'>
-              Create an Account
+      <div className="bg-gray-800 w-full max-w-md rounded-xl shadow-2xl overflow-hidden">
+        <div className="p-8">
+          <div className="text-center mb-8">
+            <FaUserPlus className="text-6xl text-green-500 mx-auto animate-pulse" />
+            <h2 className="text-3xl font-bold mt-4 text-green-400">
+              Create Account
             </h2>
-            <p className='text-gray-600 text-sm sm:text-base'>Join us today</p>
+            <p className="text-gray-400 mt-2">Sign up for a new account</p>
           </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className='space-y-4 sm:space-y-6'
-          >
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
-                htmlFor='name'
-                className='block text-sm font-medium text-gray-700 mb-1'
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-400 mb-2"
               >
                 Full Name
               </label>
-              <input
-                type='text'
-                id='name'
-                {...register("name", {
-                  required: "Full name is required",
-                  minLength: {
-                    value: 2,
-                    message: "Name must be at least 2 characters",
-                  },
-                })}
-                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
-              />
+              <div className="relative">
+                <FaUser className="absolute top-3 left-3 text-gray-400" />
+                <input
+                  type="text"
+                  id="name"
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: { value: 2, message: "Name is too short" },
+                  })}
+                  className="w-full py-2 pl-10 pr-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Enter your full name"
+                />
+              </div>
               {errors.name && (
-                <p className='mt-1 text-xs text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.name.message}
                 </p>
               )}
             </div>
             <div>
               <label
-                htmlFor='email'
-                className='block text-sm font-medium text-gray-700 mb-1'
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-400 mb-2"
               >
-                Email
+                Email Address
               </label>
-              <input
-                type='email'
-                id='email'
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })}
-                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
-              />
+              <div className="relative">
+                <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
+                <input
+                  type="email"
+                  id="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: /^\S+@\S+$/i,
+                  })}
+                  className="w-full py-2 pl-10 pr-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Enter your email"
+                />
+              </div>
               {errors.email && (
-                <p className='mt-1 text-xs text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.email.message}
                 </p>
               )}
             </div>
             <div>
               <label
-                htmlFor='password'
-                className='block text-sm font-medium text-gray-700 mb-1'
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-400 mb-2"
               >
                 Password
               </label>
-              <div className='relative'>
-                <input
-                  type={passwordVisible ? "text" : "password"}
-                  id='password'
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
-                    },
-                  })}
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
-                />
-                <button
-                  type='button'
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
-                >
-                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
+              <Password
+                name="password"
+                register={register("password", {
+                  required: "Password is required",
+                  minLength: 6,
+                })}
+              />
               {errors.password && (
-                <p className='mt-1 text-xs text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.password.message}
                 </p>
               )}
             </div>
             <div>
               <label
-                htmlFor='confirmPassword'
-                className='block text-sm font-medium text-gray-700 mb-1'
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-400 mb-2"
               >
                 Confirm Password
               </label>
-              <div className='relative'>
-                <input
-                  type={confirmPasswordVisible ? "text" : "password"}
-                  id='confirmPassword'
-                  {...register("confirmPassword", {
-                    required: "Please confirm your password",
-                    validate: (value) =>
-                      value === password || "Passwords do not match",
-                  })}
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500'
-                />
-                <button
-                  type='button'
-                  onClick={() =>
-                    setConfirmPasswordVisible(!confirmPasswordVisible)
-                  }
-                  className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
-                >
-                  {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
+              <Password
+                name="confirmPassword"
+                register={register("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (val) =>
+                    val === watch("password") || "Passwords do not match",
+                })}
+              />
               {errors.confirmPassword && (
-                <p className='mt-1 text-xs text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.confirmPassword.message}
                 </p>
               )}
             </div>
             <button
-              type='submit'
-              className='w-full bg-green-600 text-white rounded-lg py-2 sm:py-3 text-sm sm:text-base font-semibold hover:bg-green-700 transition duration-300'
+              type="submit"
+              className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors duration-300"
             >
               Sign Up
             </button>
           </form>
-          <p className='mt-6 text-center text-sm text-gray-600'>
+        </div>
+        <div className="px-8 py-4 bg-gray-700 border-t border-gray-600 text-center">
+          <p className="text-sm text-gray-400">
             Already have an account?{" "}
-            <Link
-              to='/login'
-              className='font-medium text-green-600 hover:underline'
-            >
+            <Link to="/login" className="text-green-500 hover:underline">
               Log in
             </Link>
           </p>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

@@ -1,15 +1,13 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { BiLogInCircle } from "react-icons/bi";
+import { FaEnvelope } from "react-icons/fa";
+import Password from "../../component/Password/Password";
 import { Link, useNavigate } from "react-router-dom";
 import useLoader from "../../hooks/useLoader";
 import { loginFun } from "../../services/services";
 import useToast from "../../hooks/useToast";
-import { BiLogInCircle } from "react-icons/bi";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const {
     register,
     handleSubmit,
@@ -36,120 +34,87 @@ const Login = () => {
         setLoader(false);
       });
   };
-
   return (
-    <>
+    <main className="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center p-3">
       <LoaderComp />
-      <div className='min-h-screen w-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 p-4'>
-        <div className='bg-white rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-md'>
-          <div className='text-center mb-8'>
-            <BiLogInCircle className='text-5xl text-blue-600 mx-auto' />
-            <h2 className='text-2xl sm:text-3xl font-bold mt-2'>
+      <div className="bg-gray-800 w-full max-w-md rounded-xl shadow-2xl overflow-hidden">
+        <div className="p-6">
+          <div className="text-center mb-6">
+            <BiLogInCircle className="text-6xl text-blue-500 mx-auto animate-pulse" />
+            <h2 className="text-3xl font-bold mt-3 text-blue-400">
               Welcome Back
             </h2>
-            <p className='text-gray-600 text-sm sm:text-base'>
-              Login to your account
-            </p>
+            <p className="text-gray-400 mt-1">Login to your account</p>
           </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className='space-y-4 sm:space-y-6'
-          >
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
-                htmlFor='email'
-                className='block text-sm font-medium text-gray-700 mb-1'
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-400 mb-2"
               >
-                Email
+                Email Address
               </label>
-              <input
-                type='email'
-                id='email'
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })}
-                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500'
-              />
+              <div className="relative">
+                <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
+                <input
+                  type="email"
+                  id="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: /^\S+@\S+$/i,
+                  })}
+                  className="w-full py-2 pl-10 pr-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter your email"
+                />
+              </div>
               {errors.email && (
-                <p className='mt-1 text-xs text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.email.message}
                 </p>
               )}
             </div>
             <div>
               <label
-                htmlFor='password'
-                className='block text-sm font-medium text-gray-700 mb-1'
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-400 mb-2"
               >
                 Password
               </label>
-              <div className='relative'>
-                <input
-                  type={passwordVisible ? "text" : "password"}
-                  id='password'
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
-                    },
-                  })}
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500'
-                />
-                <button
-                  type='button'
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
-                >
-                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
+              <Password
+                register={register("password", {
+                  required: "Password is required",
+                  minLength: 6,
+                })}
+              />
               {errors.password && (
-                <p className='mt-1 text-xs text-red-500'>
+                <p className="mt-1 text-sm text-red-500">
                   {errors.password.message}
                 </p>
               )}
             </div>
-            <div className='flex items-center justify-between'>
-              <label className='flex items-center'>
-                <input
-                  type='checkbox'
-                  checked={rememberMe}
-                  onChange={() => setRememberMe(!rememberMe)}
-                  className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
-                />
-                <span className='ml-2 text-sm text-gray-600'>Remember me</span>
-              </label>
-              <Link
-                to='/forgot-password'
-                className='text-sm text-blue-600 hover:underline'
-              >
+            {/* <div className="text-right">
+              <a href="#" className="text-sm text-blue-500 hover:underline">
                 Forgot password?
-              </Link>
-            </div>
+              </a>
+            </div> */}
             <button
-              type='submit'
-              className='w-full bg-blue-600 text-white rounded-lg py-2 sm:py-3 text-sm sm:text-base font-semibold hover:bg-blue-700 transition duration-300'
+              type="submit"
+              className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors duration-300"
             >
-              Login
+              Sign In
             </button>
           </form>
-          <p className='mt-6 text-center text-sm text-gray-600'>
+        </div>
+        <div className="px-8 py-3 bg-gray-700 border-t border-gray-600 text-center">
+          <p className="text-sm text-gray-400">
             {"Don't"} have an account?{" "}
-            <Link
-              to='/signup'
-              className='font-medium text-blue-600 hover:underline'
-            >
+            <Link to="/signup" className="text-blue-500 hover:underline">
               Sign up
             </Link>
           </p>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

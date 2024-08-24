@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../component/Loader";
 
 const Protect = ({ Component, name, isProtected }) => {
   const token = localStorage.getItem("token");
@@ -14,7 +15,11 @@ const Protect = ({ Component, name, isProtected }) => {
     }
   }, [name, navigate, token, isProtected]);
 
-  return <Component />;
+  return (
+    <Suspense fallback={<Loader />}>
+      <Component />
+    </Suspense>
+  );
 };
 
 Protect.propTypes = {
