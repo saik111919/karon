@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FaTrashAlt } from "react-icons/fa";
 import * as XLSX from "xlsx";
+import { CgSoftwareDownload } from "react-icons/cg";
 
 const DataTable = ({ data = [], onDeleteExpense }) => {
   const getCurrentMonth = () => {
@@ -100,10 +101,11 @@ const DataTable = ({ data = [], onDeleteExpense }) => {
           }
         />
         <button
-          className='flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out'
+          className='flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out flex align-middle justify-center items-center'
           onClick={handleExport}
         >
-          Export To Excel
+          <CgSoftwareDownload className='w-6 h-6' />
+          <div className='hidden sm:block'>Export To Excel</div>
         </button>
         <select
           className='flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
