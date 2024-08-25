@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import useToast from "../hooks/useToast";
 import { AddTransactions } from "../services/services";
 
-const ExpenseModel = ({ setIsModalOpen }) => {
+const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
   const {
     register,
     handleSubmit,
@@ -20,6 +20,7 @@ const ExpenseModel = ({ setIsModalOpen }) => {
         reset();
         addToast("success", data.message);
         setIsModalOpen(false);
+        fetchTransactions();
       })
       .catch((err) => {
         addToast(
@@ -130,6 +131,7 @@ const ExpenseModel = ({ setIsModalOpen }) => {
 
 ExpenseModel.propTypes = {
   setIsModalOpen: PropTypes.func.isRequired,
+  fetchTransactions: PropTypes.func.isRequired,
 };
 
 export default ExpenseModel;

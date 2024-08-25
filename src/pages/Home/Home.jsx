@@ -45,7 +45,12 @@ const Home = () => {
       >
         <FiPlusCircle className="text-3xl" />
       </button>
-      {isModalOpen && <ExpenseModel setIsModalOpen={setIsModalOpen} />}
+      {isModalOpen && (
+        <ExpenseModel
+          setIsModalOpen={setIsModalOpen}
+          fetchTransactions={fetchTransactions}
+        />
+      )}
     </div>
   );
 };
