@@ -3,6 +3,7 @@ import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import useToast from "../hooks/useToast";
 import { AddTransactions } from "../services/services";
+import { showNotification } from "../utils/common";
 
 const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
   const {
@@ -21,6 +22,10 @@ const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
         addToast("success", data.message);
         setIsModalOpen(false);
         fetchTransactions();
+        showNotification(
+          "Expense Added",
+          `An expense of ₹${data?.amount} was added.`
+        );
       })
       .catch((err) => {
         addToast(
