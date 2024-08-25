@@ -28,7 +28,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-blue-600 shadow-lg sticky top-0 z-50">
+    <nav className="bg-blue-600 shadow-lg sticky top-0 w-full z-50">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-">
         <div className="flex items-center justify-between lg:h-12 h-14">
           <div className="flex items-center">
@@ -91,7 +91,7 @@ const NavBar = () => {
                   <NavLink
                     to="/login"
                     onClick={handleLogout}
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-700 hover:text-white w-full text-left rounded-md"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-700 hover:text-white w-full text-left rounded-md"
                     role="menuitem"
                   >
                     Logout

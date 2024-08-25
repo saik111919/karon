@@ -1,104 +1,170 @@
+import { FaRupeeSign } from "react-icons/fa";
 import PropTypes from "prop-types";
-import { FaCreditCard, FaMoneyBillAlt, FaRupeeSign } from "react-icons/fa";
-import useExpenseTracker from "../../hooks/useExpenseTracker";
-import useTransaction from "../../hooks/useTransaction";
+import { FiTrendingDown, FiTrendingUp } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { DeleteTransactions } from "../../services/services";
+import useToast from "../../hooks/useToast";
+import Card from "./Card";
+import TransactionItem from "./TransactionItem";
 
-const ExpenseTrackerCard = () => {
-  const { data, LoaderComp } = useTransaction();
+const ExpenseTrackerCard = ({
+  LoaderComp,
+  setLoader,
+  fetchTransactions,
+  selectedMonth,
+  handleMonthChange,
+  transactions,
+  totalSpent,
+  totalCredited,
+  remainingAmount,
+  formattedLastMonth,
+}) => {
+  const [showAllTransactions, setShowAllTransactions] = useState(false);
+  const addToast = useToast();
 
-  const {
-    selectedMonth,
-    handleMonthChange,
-    transactions,
-    totalSpent,
-    totalCredited,
-    remainingAmount,
-    formattedLastMonth,
-  } = useExpenseTracker(data);
+  function deleteTransactions(id) {
+    setLoader(true);
+    DeleteTransactions(id)
+      .then(({ data }) => {
+        fetchTransactions();
+        addToast("info", data.message);
+      })
+      .catch((err) => {
+        addToast("error", err?.data?.message || "Error Occurred.");
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  }
+
+  const handleDeleteTransaction = (id) => {
+    if (window.confirm("Are you sure you want to delete this expense?")) {
+      deleteTransactions(id);
+    }
+  };
+
+  const cards = [
+    {
+      title: "Total Balance",
+      amount: remainingAmount,
+      icon: <FaRupeeSign className="text-xl sm:text-2xl text-blue-200" />,
+      color: "bg-blue-900",
+      textColor: "text-blue-200",
+    },
+    {
+      title: "Income",
+      amount: totalCredited,
+      icon: <FiTrendingUp className="text-xl sm:text-2xl text-green-200" />,
+      color: "bg-green-900",
+      textColor: "text-green-200",
+    },
+    {
+      title: "Expenses",
+      amount: totalSpent,
+      icon: <FiTrendingDown className="text-xl sm:text-2xl text-red-200" />,
+      color: "bg-red-900",
+      textColor: "text-red-200",
+    },
+  ];
+
+  const visibleTransactions = showAllTransactions
+    ? transactions
+    : transactions.slice(-5);
 
   return (
-    <div className='p-4 md:p-6 lg:p-8 bg-white bg-opacity-40 rounded-2xl shadow-lg'>
-      <LoaderComp />
-      <div className='bg-white p-4 md:p-6 lg:p-8 rounded-2xl shadow-inner'>
-        <div className='flex flex-col sm:flex-row justify-between items-center mb-6'>
-          <h2 className='text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-0'>
-            {selectedMonth ? `Expenses for ${selectedMonth}` : "Expenses"}
-          </h2>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gradient-to-br from-gray-900 to-gray-800">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100 mb-4 sm:mb-0">
+          {selectedMonth ? `Expenses for ${selectedMonth}` : "Expenses"}
+        </h2>
+        <div className="relative">
           <input
-            type='month'
+            type="month"
             value={selectedMonth}
             onChange={handleMonthChange}
             max={formattedLastMonth}
-            className='w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300'
+            className="w-full sm:w-auto px-4 py-2 bg-gray-700 text-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
           />
         </div>
+      </div>
+      <LoaderComp />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {cards.map((card, index) => (
+          <Card key={index} {...card} />
+        ))}
+      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-6 bg-gray-800 rounded-lg shadow-xl p-4 sm:p-6 border border-gray-700 bg-opacity-95"
+      >
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6">
+          <h2 className="text-2xl font-bold text-gray-100 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            Recent Transactions
+          </h2>
+          <span className="text-sm text-gray-400">
+            {visibleTransactions.length} transactions
+          </span>
+        </div>
 
-        {transactions.length === 0 ? (
-          <div className='text-center py-12'>
-            <p className='text-lg md:text-xl text-gray-700'>
-              No transactions available{" "}
-              {selectedMonth && `for ${selectedMonth}`}
-            </p>
+        {visibleTransactions.length > 0 ? (
+          <div className="space-y-3">
+            {visibleTransactions
+              .slice()
+              .reverse()
+              .map((transaction, index) => (
+                <TransactionItem
+                  key={index}
+                  {...transaction}
+                  onDelete={() => handleDeleteTransaction(transaction._id)}
+                />
+              ))}
           </div>
         ) : (
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-            <StatCard
-              title='Spent'
-              value={totalSpent}
-              icon={FaRupeeSign}
-              iconColor='text-red-500'
-              bgColor='bg-red-100'
-            />
-            <StatCard
-              title='Credited'
-              value={totalCredited}
-              icon={FaCreditCard}
-              iconColor='text-green-500'
-              bgColor='bg-green-100'
-            />
-            <StatCard
-              title='Remaining'
-              value={remainingAmount}
-              icon={FaMoneyBillAlt}
-              iconColor='text-blue-500'
-              bgColor='bg-blue-100'
-            />
+          <div className="text-center py-6 sm:py-8">
+            <p className="text-gray-300 text-base sm:text-lg">
+              No transactions found
+            </p>
+            <p className="text-gray-400 text-sm mt-2">
+              Add a new transaction to get started
+            </p>
           </div>
         )}
-      </div>
+        {transactions.length > 5 && (
+          <div className="mt-4 sm:mt-6 text-center">
+            <button
+              onClick={() => setShowAllTransactions(!showAllTransactions)}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 text-sm sm:text-base"
+            >
+              {showAllTransactions ? "Show Less" : "Show More"}
+            </button>
+          </div>
+        )}
+      </motion.div>
     </div>
   );
 };
 
-const StatCard = ({ title, value, icon: Icon, iconColor, bgColor }) => (
-  <div
-    className={`flex items-center ${bgColor} p-4 md:p-6 rounded-xl shadow-md transition-all duration-300`}
-  >
-    <div className='flex-shrink-0'>
-      <div
-        className={`${iconColor} p-2 md:p-4 rounded-full bg-opacity-20 ${bgColor.replace(
-          "100",
-          "200"
-        )}`}
-      >
-        <Icon className='text-2xl md:text-3xl' />
-      </div>
-    </div>
-    <div className='ml-4'>
-      <p className='text-lg md:text-xl font-semibold text-gray-800'>{title}</p>
-      <p className='text-xl md:text-2xl font-bold text-gray-900'>
-        ₹{value.toLocaleString()}
-      </p>
-    </div>
-  </div>
-);
-
-StatCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-  icon: PropTypes.elementType.isRequired,
-  iconColor: PropTypes.string.isRequired,
-  bgColor: PropTypes.string.isRequired,
+ExpenseTrackerCard.propTypes = {
+  LoaderComp: PropTypes.func.isRequired,
+  setLoader: PropTypes.func.isRequired,
+  fetchTransactions: PropTypes.func.isRequired,
+  selectedMonth: PropTypes.string.isRequired,
+  handleMonthChange: PropTypes.func.isRequired,
+  transactions: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      amount: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(["credited", "spent"]).isRequired,
+      createdAt: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  totalSpent: PropTypes.number.isRequired,
+  totalCredited: PropTypes.number.isRequired,
+  remainingAmount: PropTypes.number.isRequired,
+  formattedLastMonth: PropTypes.string.isRequired,
 };
 
 export default ExpenseTrackerCard;
