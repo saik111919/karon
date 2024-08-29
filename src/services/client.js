@@ -5,7 +5,7 @@ const instance = axios.create({ withCredentials: true });
 instance.interceptors.response.use(
   (successRes) => successRes,
   ({ response }) => {
-    if (response?.status === 401) {
+    if (response?.status === 404 || response?.status === 401) {
       localStorage.clear();
       window.location.href = "/login";
     }
