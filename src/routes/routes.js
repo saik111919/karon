@@ -1,4 +1,6 @@
 import { lazy } from "react";
+import PageNotFound from "../utils/PageNotFound";
+import DeviceStatusDashboard from "../pages/DeviceStatusDashboard/DeviceStatusDashboard";
 
 const Home = lazy(() => import("../pages/Home/Home"));
 // const ExpenseTraker = lazy(() => import("../pages/Expense/ExpenseTraker"));
@@ -36,11 +38,25 @@ const routes = [
     isHeader: false,
   },
   {
+    path: "/device-status",
+    Component: DeviceStatusDashboard,
+    name: "Device Status",
+    isProtected: true,
+    isHeader: true,
+  },
+  {
     path: "/settings",
     Component: Settings,
     name: "Settings",
     isProtected: true,
     isHeader: true,
+  },
+  {
+    path: "*",
+    Component: PageNotFound,
+    name: "Page Not Found",
+    isProtected: false,
+    isHeader: false,
   },
 ];
 

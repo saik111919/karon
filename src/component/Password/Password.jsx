@@ -2,7 +2,12 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 
-const Password = ({ name = "password", register }) => {
+const Password = ({
+  name = "password",
+  register,
+  placeholder = "••••••••",
+  errors,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -13,8 +18,10 @@ const Password = ({ name = "password", register }) => {
           type={showPassword ? "text" : "password"}
           id={name}
           {...register}
-          className="w-full py-2 pl-10 pr-10 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter your password"
+          className={`w-full py-2 pl-10 pr-10 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 ${
+            errors ? "focus:ring-red-500" : "focus:ring-blue-500"
+          }`}
+          placeholder={placeholder}
         />
         <button
           type="button"
@@ -31,6 +38,8 @@ const Password = ({ name = "password", register }) => {
 Password.propTypes = {
   name: PropTypes.string,
   register: PropTypes.any,
+  placeholder: PropTypes.any,
+  errors: PropTypes.object,
 };
 
 export default Password;

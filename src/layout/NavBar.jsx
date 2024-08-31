@@ -3,9 +3,21 @@ import { NavLink } from "react-router-dom";
 import logo from "../../icon.png";
 import userAvatar from "../../icon.png";
 import routes from "../routes/routes";
-import { FaChartBar, FaCog, FaHome, FaUser } from "react-icons/fa";
+import PropTypes from "prop-types";
 
-const NavBar = () => {
+import {
+  FaChartBar,
+  FaChevronLeft,
+  FaChevronRight,
+  FaCog,
+  FaHome,
+  FaUser,
+  FaBars,
+} from "react-icons/fa";
+import { BiDevices } from "react-icons/bi";
+import { CgClose } from "react-icons/cg";
+
+const NavBar = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -42,9 +54,15 @@ const NavBar = () => {
         return <FaCog />;
       case "dashboard":
         return <FaChartBar />;
+      case "device status":
+        return <BiDevices />;
       default:
         return null;
     }
+  };
+
+  const toggleSidebarExpand = () => {
+    setIsSidebarExpanded((prev) => !prev);
   };
 
   return (
@@ -54,15 +72,18 @@ const NavBar = () => {
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <NavLink to="/" className="flex-shrink-0 flex items-center gap-2">
+              <NavLink
+                to="/"
+                className="flex-shrink-0 flex items-center gap-2 ml-4"
+              >
                 <img className="h-8 w-8 rounded-lg" src={logo} alt="Logo" />
                 <span className="text-xl font-semibold text-white">Karon</span>
               </NavLink>
             </div>
             <div className="flex items-center">
-              <div className="ml-3 relative hidden md:block" ref={dropdownRef}>
+              <div className="ml-3 relative" ref={dropdownRef}>
                 <button
-                  className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                  className="max-w-xs bg-gray-800 rounded-full lg:flex hidden items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                   id="user-menu"
                   aria-haspopup="true"
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -73,14 +94,21 @@ const NavBar = () => {
                     src={userAvatar}
                     alt="User avatar"
                   />
-                  <span className="text-sm font-medium px-2 text-white">
+                  <span className="text-sm font-medium px-2 text-white hidden md:inline">
                     {name}
                   </span>
+                </button>
+
+                <button
+                  onClick={toggleSidebar}
+                  className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white md:hidden rounded p-2"
+                >
+                  {isSidebarOpen ? <CgClose /> : <FaBars className="h-6 w-6" />}
                 </button>
               </div>
               {isProfileOpen && (
                 <div
-                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-gray-700 ring-1 ring-black ring-opacity-5"
+                  className="origin-top-right absolute top-12 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-gray-700 ring-1 ring-black ring-opacity-5"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu"
@@ -95,50 +123,6 @@ const NavBar = () => {
                   </NavLink>
                 </div>
               )}
-              <div className="ml-3 md:hidden">
-                <button
-                  onClick={toggleSidebar}
-                  type="button"
-                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                  aria-controls="mobile-menu"
-                  aria-expanded="false"
-                >
-                  <span className="sr-only">Open main menu</span>
-                  {!isSidebarOpen ? (
-                    <svg
-                      className="block h-6 w-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 6h16M4 12h16M4 18h16"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="block h-6 w-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -146,12 +130,22 @@ const NavBar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`bg-gray-800 text-white w-64 min-h-screen fixed top-16 left-0 z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`bg-gray-800 text-white min-h-screen fixed top-16 left-0 z-40 transition-all duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        } md:translate-x-0 ${isSidebarExpanded ? "lg:w-64 w-full" : "w-16"}`}
       >
-        <div className="p-4">
-          <nav className="flex flex-col gap-2">
+        <div
+          className={`h-full flex flex-col ${
+            isSidebarExpanded ? " p-4" : "p-2"
+          }`}
+        >
+          <nav className="flex flex-col gap-2 flex-grow">
+            <button
+              onClick={toggleSidebarExpand}
+              className="self-center mb-4 bg-gray-700 text-white p-2 rounded-full hidden md:block"
+            >
+              {isSidebarExpanded ? <FaChevronLeft /> : <FaChevronRight />}
+            </button>
             {routes.map(
               ({ path, name, isHeader = true }, index) =>
                 isHeader && (
@@ -159,16 +153,26 @@ const NavBar = () => {
                     key={index}
                     to={path}
                     className={({ isActive }) =>
-                      `flex py-2 px-4 rounded transition duration-200 gap-2 ${
+                      `flex items-center ${
+                        isSidebarExpanded ? "py-3 px-4" : "p-2 px-3"
+                      } transition duration-200 ${
                         isActive
-                          ? "bg-gray-700 text-white"
-                          : "text-gray-400 hover:bg-gray-700 hover:text-white"
-                      }`
+                          ? `bg-gray-700 text-white ${
+                              isSidebarExpanded ? "rounded-lg" : "rounded"
+                            }`
+                          : "text-gray-400 hover:bg-gray-700 hover:text-white rounded"
+                      } ${isSidebarExpanded ? "" : "justify-center"}`
                     }
                     onClick={() => setIsSidebarOpen(false)}
                   >
-                    <span className="self-center">{getIcon(name)}</span>
-                    {name}
+                    <span
+                      className={`text-xl ${
+                        isSidebarExpanded ? "" : "w-16 flex justify-center"
+                      }`}
+                    >
+                      {getIcon(name)}
+                    </span>
+                    {isSidebarExpanded && <span className="ml-3">{name}</span>}
                   </NavLink>
                 )
             )}
@@ -185,6 +189,11 @@ const NavBar = () => {
       )}
     </>
   );
+};
+
+NavBar.propTypes = {
+  isSidebarExpanded: PropTypes.bool,
+  setIsSidebarExpanded: PropTypes.func,
 };
 
 export default NavBar;

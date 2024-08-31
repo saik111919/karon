@@ -37,7 +37,7 @@ const Login = () => {
   return (
     <main className="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center p-3">
       <LoaderComp />
-      <div className="bg-gray-800 w-full max-w-md rounded-xl shadow-2xl overflow-hidden">
+      <div className="bg-gray-800 w-full max-w-md rounded-lg shadow-lg overflow-hidden">
         <div className="p-6">
           <div className="text-center mb-6">
             <BiLogInCircle className="text-6xl text-blue-500 mx-auto animate-pulse" />
@@ -63,15 +63,12 @@ const Login = () => {
                     required: "Email is required",
                     pattern: /^\S+@\S+$/i,
                   })}
-                  className="w-full py-2 pl-10 pr-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter your email"
+                  className={`w-full py-2 pl-10 pr-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 ${
+                    errors.email ? "focus:ring-red-500" : "focus:ring-blue-500"
+                  }`}
+                  placeholder="you@example.com"
                 />
               </div>
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.email.message}
-                </p>
-              )}
             </div>
             <div>
               <label
@@ -85,12 +82,8 @@ const Login = () => {
                   required: "Password is required",
                   minLength: 6,
                 })}
+                errors={errors.password}
               />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
             </div>
             {/* <div className="text-right">
               <a href="#" className="text-sm text-blue-500 hover:underline">
@@ -104,14 +97,17 @@ const Login = () => {
               Sign In
             </button>
           </form>
-        </div>
-        <div className="px-8 py-3 bg-gray-700 border-t border-gray-600 text-center">
-          <p className="text-sm text-gray-400">
-            {"Don't"} have an account?{" "}
-            <Link to="/signup" className="text-blue-500 hover:underline">
-              Sign up
-            </Link>
-          </p>
+          <div className="mt-6 text-center">
+            <p className="text-gray-400 mb-4">Or continue with</p>
+            <div className="px-8 mt-3 py-3 bg-gray-700 rounded-lg border-gray-600 text-center">
+              <p className="text-sm text-gray-400">
+                {"Don't"} have an account?{" "}
+                <Link to="/signup" className="text-blue-500 hover:underline">
+                  Sign up
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </main>
