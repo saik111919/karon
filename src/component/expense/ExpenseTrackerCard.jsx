@@ -1,12 +1,13 @@
 import { FaRupeeSign } from "react-icons/fa";
-import PropTypes from "prop-types";
 import { FiTrendingDown, FiTrendingUp } from "react-icons/fi";
+import PropTypes from "prop-types";
 import { memo, useState } from "react";
 import { DeleteTransactions } from "../../services/services";
 import useToast from "../../hooks/useToast";
 import Card from "./Card";
 import TransactionItem from "./TransactionItem";
 import AlertModal from "../AlertModal";
+import Slider from "react-slick";
 
 const ExpenseTrackerCard = ({
   LoaderComp,
@@ -48,27 +49,21 @@ const ExpenseTrackerCard = ({
     {
       title: "Total Balance",
       amount: remainingAmount,
-      icon: (
-        <FaRupeeSign className='text-xl sm:text-2xl text-blue-200 dark:text-blue-400' />
-      ),
+      icon: <FaRupeeSign className='text-blue-200 dark:text-blue-400' />,
       color: "bg-blue-100 dark:bg-blue-900",
       textColor: "text-blue-900 dark:text-blue-200",
     },
     {
       title: "Income",
       amount: totalCredited,
-      icon: (
-        <FiTrendingUp className='text-xl sm:text-2xl text-green-200 dark:text-green-400' />
-      ),
+      icon: <FiTrendingUp className='text-green-200 dark:text-green-400' />,
       color: "bg-green-100 dark:bg-green-900",
       textColor: "text-green-900 dark:text-green-200",
     },
     {
       title: "Expenses",
       amount: totalSpent,
-      icon: (
-        <FiTrendingDown className='text-xl sm:text-2xl text-red-200 dark:text-red-400' />
-      ),
+      icon: <FiTrendingDown className='text-red-200 dark:text-red-400' />,
       color: "bg-red-100 dark:bg-red-900",
       textColor: "text-red-900 dark:text-red-200",
     },
@@ -77,6 +72,33 @@ const ExpenseTrackerCard = ({
   const visibleTransactions = showAllTransactions
     ? transactions
     : transactions.slice(-5);
+
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    autoplay: false,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 rounded hover:shadow-lg transition-all bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800'>
@@ -94,12 +116,19 @@ const ExpenseTrackerCard = ({
           />
         </div>
       </div>
+
       <LoaderComp />
-      <div className='lg:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 flex lg:overflow-x-visible lg:overflow-y-visible md:overflow-y-visible md:overflow-x-visible overflow-x-auto overflow-y-hidden '>
-        {cards.map((card, index) => (
-          <Card key={index} {...card} />
-        ))}
+
+      <div className='relative'>
+        <Slider {...settings} className='border rounded-lg shadow-sm'>
+          {cards.map((card, index) => (
+            <div key={index} className='px-2 my-2'>
+              <Card {...card} />
+            </div>
+          ))}
+        </Slider>
       </div>
+
       <div className='mt-6 dark:bg-gray-800 rounded-lg shadow-xl p-4 sm:p-6 border border-gray-300 dark:border-gray-700 bg-opacity-95'>
         <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6'>
           <h2 className='text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 dark:from-blue-300 dark:to-purple-400'>

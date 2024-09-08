@@ -61,10 +61,10 @@ const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
 
   return (
     <div
-      className='fixed inset-0 bg-black bg-opacity-50 flex lg:items-center items-end lg:justify-center lg:p-4 z-50'
+      className='fixed inset-0 bg-black bg-opacity-50 flex items-end lg:items-center justify-center lg:p-4 z-50'
       onClick={handleOutsideClick}
     >
-      <div className='bg-gray-800 dark:bg-gray-900 lg:rounded-lg md:rounded-lg rounded-t-lg p-4 w-full max-w-sm transform transition-all duration-300 ease-in-out'>
+      <div className='bg-gray-800 dark:bg-gray-900 w-full md:max-w-sm lg:max-w-md rounded-t-lg lg:rounded-lg p-4 transform transition-all duration-300 ease-in-out'>
         <div className='flex justify-between items-center mb-4'>
           <h2 className='text-xl font-semibold text-gray-100 dark:text-gray-200'>
             Add Expense

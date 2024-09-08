@@ -10,10 +10,28 @@
       "type": "image/png"
     }
   ],
+  "id": "/?source=pwa",
   "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "display": "standalone",
   "orientation": "portrait",
   "description": "Karon is a modern web application.",
-  "lang": "en-US"
+  "lang": "en-US",
+  "shortcuts": [
+    {
+      "name": "Expense Tracker",
+      "short_name": "Expense Tracker",
+      "description": "Manage your expenses",
+      "url": "/?source=pwa",
+      "icons": [{ "src": "/icon.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icon.png",
+      "type": "image/png",
+      "sizes": "540x720",
+      "form_factor": "narrow"
+    }
+  ]
 }

@@ -4,29 +4,29 @@ import { formatIndianCurrency } from "../../utils/common";
 import { cloneElement } from "react";
 
 const Card = ({ title, amount, icon, color, textColor }) => (
-  <motion.div
-    whileHover={{ y: -5 }}
-    transition={{ type: "spring", stiffness: 400 }}
-    className={`${color} lg:rounded-lg md:rounded-lg rounded-2xl lg:shadow-lg md:shadow-lg shadow-2xl p-6 flex flex-col space-y-4`}
+  <div
+    className={`${color} rounded-lg shadow-sm p-4 sm:p-5 md:p-6 flex flex-col justify-between h-full transform transition-all duration-300 ease-in-out`}
   >
-    <div className='flex items-center justify-between'>
-      <div className='flex flex-col lg:p-0 pr-6'>
-        <p className={`${textColor} text-3xl md:text-4xl font-bold`}>
-          {formatIndianCurrency(amount)}
-        </p>
-        <h2 className='text-sm font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider mt-2'>
-          {title}
-        </h2>
-      </div>
+    <div className='flex items-center justify-between mb-2 sm:mb-3 md:mb-4'>
+      <h2 className='text-xs sm:text-sm md:text-base font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider'>
+        {title}
+      </h2>
       <motion.div
         whileHover={{ rotate: 15, scale: 1.1 }}
         transition={{ type: "spring", stiffness: 300 }}
-        className={`p-4 rounded-full bg-white bg-opacity-25 shadow-lg`}
+        className={`p-2 sm:p-3 md:p-4 rounded-full bg-white bg-opacity-25 shadow-md`}
       >
-        {cloneElement(icon, { className: `w-8 h-8 ${textColor}` })}
+        {cloneElement(icon, {
+          className: `w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${textColor}`,
+        })}
       </motion.div>
     </div>
-  </motion.div>
+    <p
+      className={`${textColor} text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-2 sm:mt-3 md:mt-4`}
+    >
+      {formatIndianCurrency(amount)}
+    </p>
+  </div>
 );
 
 Card.propTypes = {

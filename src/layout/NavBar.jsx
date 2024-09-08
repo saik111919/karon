@@ -1,152 +1,55 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../icon.png";
 import userAvatar from "../../icon.png";
 import routes from "../routes/routes";
 import PropTypes from "prop-types";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaCog,
-  FaHome,
-  FaUser,
-  FaBars,
-} from "react-icons/fa";
-import { CgClose } from "react-icons/cg";
-import BottomBar from "./BottomBar"; // Import the BottomBar component
+import { FaChevronLeft, FaChevronRight, FaMoon, FaSun } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
+import useTheme from "../hooks/useTheme";
 
-const NavBar = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
+const NavBar = ({ isSidebarExpanded, setIsSidebarExpanded, getIcon }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const dropdownRef = useRef(null);
   const name = localStorage.getItem("name");
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsProfileOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.clear();
-  };
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const [theme, toggleTheme] = useTheme();
 
   const toggleSidebarExpand = () => {
     setIsSidebarExpanded((prev) => !prev);
   };
 
-  const getIcon = (name) => {
-    switch (name.toLowerCase()) {
-      case "home":
-        return <FaHome />;
-      case "profile":
-        return <FaUser />;
-      case "settings":
-        return <FaCog />;
-      case "logout":
-        return <BiLogOut />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <>
-      {/* Navbar */}
-      <nav className='hidden lg:block bg-gray-100 dark:bg-gray-800 shadow-sm sticky top-0 w-full z-50'>
-        <div className='w-full mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex items-center justify-between h-16'>
-            <div className='flex items-center'>
-              <NavLink
-                to='/'
-                className='flex-shrink-0 flex items-center gap-2 ml-4'
-              >
-                <img className='h-8 w-8 rounded-lg' src={logo} alt='Logo' />
-                <span className='text-xl font-semibold text-gray-900 dark:text-white'>
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 ease-in-out shadow-xl hidden md:hidden lg:flex flex-col 
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+          md:translate-x-0 
+          ${
+            isSidebarExpanded ? "lg:w-72 w-full" : "w-20"
+          } dark:bg-gray-900 bg-gray-50 text-gray-800 dark:text-white`}
+      >
+        <div className={`flex-grow ${isSidebarExpanded ? "p-6" : "p-2"}`}>
+          <div
+            className={`flex items-center border-b border-gray-200 dark:border-gray-700 pb-4 justify-${
+              isSidebarExpanded ? "between" : "center"
+            }`}
+          >
+            {isSidebarExpanded && (
+              <NavLink to='/' className='flex-shrink-0 flex items-center gap-3'>
+                <img className='h-10 w-10 rounded-xl' src={logo} alt='Logo' />
+                <span className='text-2xl font-bold text-gray-800 dark:text-white'>
                   Karon
                 </span>
               </NavLink>
-            </div>
-            <div className='flex items-center'>
-              <div className='ml-3 relative' ref={dropdownRef}>
-                <button
-                  className='max-w-xs bg-gray-100 dark:bg-gray-800 rounded-full lg:flex hidden items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-gray-900 dark:focus:ring-white'
-                  id='user-menu'
-                  aria-haspopup='true'
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
-                >
-                  <span className='sr-only'>Open user menu</span>
-                  <img
-                    className='h-8 w-8 rounded-full'
-                    src={userAvatar}
-                    alt='User avatar'
-                  />
-                  <span className='text-sm font-medium px-2 text-gray-900 dark:text-white hidden md:inline'>
-                    {name}
-                  </span>
-                </button>
-
-                <button
-                  onClick={toggleSidebar}
-                  className='text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-gray-900 dark:focus:ring-white md:hidden rounded p-2'
-                >
-                  {isSidebarOpen ? <CgClose /> : <FaBars className='h-6 w-6' />}
-                </button>
-              </div>
-              {/* {isProfileOpen && (
-                <div
-                  className='origin-top-right absolute top-12 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5'
-                  role='menu'
-                  aria-orientation='vertical'
-                  aria-labelledby='user-menu'
-                >
-                  <NavLink
-                    to='/login'
-                    onClick={handleLogout}
-                    className='block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white'
-                    role='menuitem'
-                  >
-                    Logout
-                  </NavLink>
-                </div>
-              )} */}
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Sidebar */}
-      <aside
-        className={`transition-all duration-300 ease-in-out fixed top-16 left-0 z-40 min-h-screen dark:shadow-sm shadow-lg hidden lg:block ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 ${
-          isSidebarExpanded ? "lg:w-64 w-full" : "w-16"
-        } bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white`}
-      >
-        <div
-          className={`h-full flex flex-col ${
-            isSidebarExpanded ? " p-4" : "p-2"
-          }`}
-        >
-          <nav className='flex flex-col gap-2 flex-grow'>
+            )}
             <button
               onClick={toggleSidebarExpand}
-              className='self-center mb-4 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white p-2 rounded-full hidden md:block'
+              className='self-center bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 p-2 rounded-full hidden md:block hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200'
             >
               {isSidebarExpanded ? <FaChevronLeft /> : <FaChevronRight />}
             </button>
+          </div>
+          <nav className='flex flex-col gap-2 mt-6'>
             {routes.map(
               ({ path, name, isHeader = true }, index) =>
                 isHeader && (
@@ -155,11 +58,11 @@ const NavBar = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
                     to={path}
                     className={({ isActive }) =>
                       `flex items-center ${
-                        isSidebarExpanded ? "py-3 px-4" : "p-2 px-3"
+                        isSidebarExpanded ? "py-3 px-4" : "p-3"
                       } transition duration-200 ${
                         isActive
-                          ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg"
-                          : "text-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white rounded"
+                          ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-xl font-semibold"
+                          : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white rounded-xl"
                       } ${isSidebarExpanded ? "" : "justify-center"}`
                     }
                     onClick={() => setIsSidebarOpen(false)}
@@ -171,54 +74,89 @@ const NavBar = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
                     >
                       {getIcon(name)}
                     </span>
-                    {isSidebarExpanded && <span className='ml-3'>{name}</span>}
+                    {isSidebarExpanded && (
+                      <span className='ml-3 text-sm'>{name}</span>
+                    )}
                   </NavLink>
                 )
             )}
+          </nav>
+        </div>
+        <div className='border-t border-gray-200 dark:border-gray-700 mt-auto'>
+          <div className={`p-4 ${isSidebarExpanded ? "px-6" : "px-2"}`}>
+            {isSidebarExpanded ? (
+              <div className='flex items-center mb-4 bg-gray-100 dark:bg-gray-800 p-3 rounded-lg'>
+                <img
+                  src={userAvatar}
+                  alt='User Avatar'
+                  className='w-10 h-10 rounded-full mr-3 border-2 border-white dark:border-gray-700 shadow-md'
+                />
+                <span className='text-sm font-medium truncate'>{name}</span>
+              </div>
+            ) : (
+              <div className='flex justify-center mb-4'>
+                <img
+                  src={userAvatar}
+                  alt='User Avatar'
+                  className='w-10 h-10 rounded-full border-2 border-white dark:border-gray-700 shadow-md'
+                />
+              </div>
+            )}
+
+            <button
+              className={`w-full flex items-center justify-center p-2 mb-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors duration-200`}
+              onClick={toggleTheme}
+            >
+              {theme === "dark" ? (
+                <FaSun
+                  className={`${
+                    isSidebarExpanded ? "h-5 w-5 mr-2" : "h-6 w-6"
+                  }`}
+                />
+              ) : (
+                <FaMoon
+                  className={`${
+                    isSidebarExpanded ? "h-5 w-5 mr-2" : "h-6 w-6"
+                  }`}
+                />
+              )}
+              {isSidebarExpanded && (
+                <span className='text-sm font-medium'>
+                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                </span>
+              )}
+            </button>
+
             <NavLink
               to='login'
               className={({ isActive }) =>
-                `flex items-center ${
-                  isSidebarExpanded ? "py-3 px-4" : "p-2 px-3"
-                } transition duration-200 ${
+                `w-full flex items-center justify-center p-2 transition-colors duration-200 ${
                   isActive
-                    ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg"
-                    : "text-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white rounded"
-                } ${isSidebarExpanded ? "" : "justify-center"}`
+                    ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300"
+                    : "bg-red-500 hover:bg-red-600 text-white"
+                } rounded-lg font-medium`
               }
               onClick={() => {
                 setIsSidebarOpen(false);
-                handleLogout();
+                localStorage.clear();
               }}
             >
-              <span
-                className={`text-xl ${
-                  isSidebarExpanded ? "" : "w-16 flex justify-center"
-                }`}
-              >
-                {getIcon("Logout")}
-              </span>
-              {isSidebarExpanded && <span className='ml-3'>Logout</span>}
+              <BiLogOut
+                className={`${isSidebarExpanded ? "text-xl mr-2" : "text-2xl"}`}
+              />
+              {isSidebarExpanded && <span className='text-sm'>Logout</span>}
             </NavLink>
-          </nav>
+          </div>
         </div>
       </aside>
 
       {/* Overlay for mobile */}
       {isSidebarOpen && (
         <div
-          className='fixed inset-0 bg-black opacity-50 z-30 md:hidden'
-          onClick={toggleSidebar}
+          className='fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden'
+          onClick={() => setIsSidebarOpen(false)}
         ></div>
       )}
-
-      {/* Bottom Bar */}
-      <BottomBar
-        routes={routes}
-        isSidebarOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-        getIcon={getIcon}
-      />
     </>
   );
 };
@@ -226,6 +164,7 @@ const NavBar = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
 NavBar.propTypes = {
   isSidebarExpanded: PropTypes.bool,
   setIsSidebarExpanded: PropTypes.func.isRequired,
+  getIcon: PropTypes.func.isRequired,
 };
 
 export default NavBar;

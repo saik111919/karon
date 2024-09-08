@@ -1,9 +1,13 @@
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
-const BottomBar = ({ routes, toggleSidebar, getIcon }) => (
-  <div
-    className={`fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white shadow-lg z-50 md:hidden lg:hidden block`}
+const BottomBar = ({ routes, getIcon }) => (
+  <motion.div
+    className={`sticky bottom-0 w-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white shadow-lg md:hidden lg:hidden block`}
+    initial={{ y: "100%" }}
+    animate={{ y: 0 }}
+    transition={{ type: "spring", stiffness: 300, damping: 30 }}
   >
     <nav className='flex justify-around p-2'>
       {routes.map(
@@ -12,16 +16,31 @@ const BottomBar = ({ routes, toggleSidebar, getIcon }) => (
             <NavLink
               key={index}
               to={path}
-              className='flex flex-col items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-              onClick={() => toggleSidebar(false)}
+              className={({ isActive }) =>
+                `flex flex-col items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white ${
+                  isActive ? "text-blue-500 dark:text-blue-400" : ""
+                }`
+              }
             >
-              {getIcon(name)}
-              <span className='text-xs'>{name}</span>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {getIcon(name)}
+              </motion.div>
+              <motion.span
+                className='text-xs'
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                {name}
+              </motion.span>
             </NavLink>
           )
       )}
     </nav>
-  </div>
+  </motion.div>
 );
 
 BottomBar.propTypes = {
@@ -29,9 +48,9 @@ BottomBar.propTypes = {
     PropTypes.shape({
       path: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
+      isHeader: PropTypes.bool.isRequired,
     })
   ).isRequired,
-  toggleSidebar: PropTypes.func.isRequired,
   getIcon: PropTypes.func.isRequired,
 };
 
