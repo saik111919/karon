@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../component/Loader";
 
 const Protect = ({ Component, name, isProtected }) => {
-  document.body.classList.add("bg-black");
-  document.body.classList.add("text-white");
+  // document.body.classList.add("bg-black");
+  // document.body.classList.add("text-white");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {

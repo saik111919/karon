@@ -9,12 +9,12 @@ const Card = ({ title, amount, icon, color, textColor }) => (
     transition={{ type: "spring", stiffness: 400 }}
     className={`${color} rounded-lg shadow-lg p-6 flex flex-col space-y-4`}
   >
-    <div className="flex items-center justify-between">
-      <div className="flex flex-col">
+    <div className='flex items-center justify-between'>
+      <div className='flex flex-col'>
         <p className={`${textColor} text-3xl md:text-4xl font-bold`}>
           {formatIndianCurrency(amount)}
         </p>
-        <h2 className="text-sm font-medium text-gray-200 uppercase tracking-wider mt-2">
+        <h2 className='text-sm font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider mt-2'>
           {title}
         </h2>
       </div>

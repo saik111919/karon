@@ -1,12 +1,12 @@
 import { FaRupeeSign } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { FiTrendingDown, FiTrendingUp } from "react-icons/fi";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { DeleteTransactions } from "../../services/services";
 import useToast from "../../hooks/useToast";
 import Card from "./Card";
 import TransactionItem from "./TransactionItem";
+import AlertModal from "../AlertModal";
 
 const ExpenseTrackerCard = ({
   LoaderComp,
@@ -22,6 +22,8 @@ const ExpenseTrackerCard = ({
 }) => {
   const [showAllTransactions, setShowAllTransactions] = useState(false);
   const addToast = useToast();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmToDelete, setConfirmToDelete] = useState(null);
 
   function deleteTransactions(id) {
     setLoader(true);
@@ -39,32 +41,36 @@ const ExpenseTrackerCard = ({
   }
 
   const handleDeleteTransaction = (id) => {
-    if (window.confirm("Are you sure you want to delete this expense?")) {
-      deleteTransactions(id);
-    }
+    setConfirmToDelete(id);
   };
 
   const cards = [
     {
       title: "Total Balance",
       amount: remainingAmount,
-      icon: <FaRupeeSign className="text-xl sm:text-2xl text-blue-200" />,
-      color: "bg-blue-900",
-      textColor: "text-blue-200",
+      icon: (
+        <FaRupeeSign className='text-xl sm:text-2xl text-blue-200 dark:text-blue-400' />
+      ),
+      color: "bg-blue-100 dark:bg-blue-900",
+      textColor: "text-blue-900 dark:text-blue-200",
     },
     {
       title: "Income",
       amount: totalCredited,
-      icon: <FiTrendingUp className="text-xl sm:text-2xl text-green-200" />,
-      color: "bg-green-900",
-      textColor: "text-green-200",
+      icon: (
+        <FiTrendingUp className='text-xl sm:text-2xl text-green-200 dark:text-green-400' />
+      ),
+      color: "bg-green-100 dark:bg-green-900",
+      textColor: "text-green-900 dark:text-green-200",
     },
     {
       title: "Expenses",
       amount: totalSpent,
-      icon: <FiTrendingDown className="text-xl sm:text-2xl text-red-200" />,
-      color: "bg-red-900",
-      textColor: "text-red-200",
+      icon: (
+        <FiTrendingDown className='text-xl sm:text-2xl text-red-200 dark:text-red-400' />
+      ),
+      color: "bg-red-100 dark:bg-red-900",
+      textColor: "text-red-900 dark:text-red-200",
     },
   ];
 
@@ -73,43 +79,39 @@ const ExpenseTrackerCard = ({
     : transactions.slice(-5);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gradient-to-br from-gray-900 to-gray-800">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100 mb-4 sm:mb-0">
+    <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 rounded hover:shadow-lg transition-all bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800'>
+      <div className='flex flex-col sm:flex-row justify-between items-center mb-8'>
+        <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 sm:mb-0'>
           {selectedMonth ? `Expenses for ${selectedMonth}` : "Expenses"}
         </h2>
-        <div className="relative">
+        <div className='relative'>
           <input
-            type="month"
+            type='month'
             value={selectedMonth}
             onChange={handleMonthChange}
             max={formattedLastMonth}
-            className="w-full sm:w-auto px-4 py-2 bg-gray-700 text-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+            className='w-full sm:w-auto px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 transition-all duration-300'
           />
         </div>
       </div>
       <LoaderComp />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
         {cards.map((card, index) => (
           <Card key={index} {...card} />
         ))}
       </div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mt-6 bg-gray-800 rounded-lg shadow-xl p-4 sm:p-6 border border-gray-700 bg-opacity-95"
-      >
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6">
-          <h2 className="text-2xl font-bold text-gray-100 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+      <div className='mt-6 dark:bg-gray-800 rounded-lg shadow-xl p-4 sm:p-6 border border-gray-300 dark:border-gray-700 bg-opacity-95'>
+        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6'>
+          <h2 className='text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 dark:from-blue-300 dark:to-purple-400'>
             Recent Transactions
           </h2>
-          <span className="text-sm text-gray-400">
+          <span className='text-sm text-gray-500 dark:text-gray-400'>
             {visibleTransactions.length} transactions
           </span>
         </div>
 
         {visibleTransactions.length > 0 ? (
-          <div className="space-y-3">
+          <div className='space-y-3'>
             {visibleTransactions
               .slice()
               .reverse()
@@ -117,31 +119,45 @@ const ExpenseTrackerCard = ({
                 <TransactionItem
                   key={index}
                   {...transaction}
-                  onDelete={() => handleDeleteTransaction(transaction._id)}
+                  onDelete={() => {
+                    handleDeleteTransaction(transaction._id);
+                    setShowConfirmModal(true);
+                  }}
                 />
               ))}
           </div>
         ) : (
-          <div className="text-center py-6 sm:py-8">
-            <p className="text-gray-300 text-base sm:text-lg">
+          <div className='text-center py-6 sm:py-8'>
+            <p className='text-gray-500 dark:text-gray-300 text-base sm:text-lg'>
               No transactions found
             </p>
-            <p className="text-gray-400 text-sm mt-2">
+            <p className='text-gray-400 dark:text-gray-400 text-sm mt-2'>
               Add a new transaction to get started
             </p>
           </div>
         )}
         {transactions.length > 5 && (
-          <div className="mt-4 sm:mt-6 text-center">
+          <div className='mt-4 sm:mt-6 text-center'>
             <button
               onClick={() => setShowAllTransactions(!showAllTransactions)}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 text-sm sm:text-base"
+              className='bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 text-sm sm:text-base'
             >
               {showAllTransactions ? "Show Less" : "Show More"}
             </button>
           </div>
         )}
-      </motion.div>
+      </div>
+      <AlertModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        title='Warning'
+        message='Are you sure you want to delete this transaction?'
+        type='warning'
+        confirmText="Yes, I'm sure"
+        onConfirm={() => {
+          deleteTransactions(confirmToDelete);
+        }}
+      />
     </div>
   );
 };
@@ -167,4 +183,4 @@ ExpenseTrackerCard.propTypes = {
   formattedLastMonth: PropTypes.string.isRequired,
 };
 
-export default ExpenseTrackerCard;
+export default memo(ExpenseTrackerCard);

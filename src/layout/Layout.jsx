@@ -7,7 +7,7 @@ const Layout = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+    <div className='flex flex-col min-h-screen dark:bg-gray-900 dark:text-white'>
       <NavBar
         isSidebarExpanded={isSidebarExpanded}
         setIsSidebarExpanded={setIsSidebarExpanded}
@@ -17,7 +17,7 @@ const Layout = () => {
           isSidebarExpanded ? "md:ml-64" : "md:ml-12"
         }`}
       >
-        <div className="max-w-full h-full">
+        <div className='max-w-full h-full'>
           <Outlet />
         </div>
       </main>

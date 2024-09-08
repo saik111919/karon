@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import useToast from "../hooks/useToast";
 import { AddTransactions } from "../services/services";
 import { showNotification } from "../utils/common";
+import { useEffect } from "react";
 
 const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
   const {
@@ -12,7 +13,6 @@ const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
     formState: { errors },
     reset,
   } = useForm();
-
   const addToast = useToast();
 
   const onSubmit = (data) => {
@@ -35,48 +35,75 @@ const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
       });
   };
 
+  // Close modal when clicking outside or pressing Esc key
+  const handleOutsideClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsModalOpen(false);
+      reset();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      setIsModalOpen(false);
+      reset();
+    }
+  };
+
+  useEffect(() => {
+    // Add keydown event listener
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      // Clean up event listener on component unmount
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md transform transition-all duration-300 ease-in-out">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-100">Add New Expense</h2>
+    <div
+      className='fixed inset-0 bg-black bg-opacity-50 flex lg:items-center items-end lg:justify-center lg:p-4 z-50'
+      onClick={handleOutsideClick}
+    >
+      <div className='bg-gray-800 dark:bg-gray-900 lg:rounded-lg md:rounded-lg rounded-t-lg p-4 w-full max-w-sm transform transition-all duration-300 ease-in-out'>
+        <div className='flex justify-between items-center mb-4'>
+          <h2 className='text-xl font-semibold text-gray-100 dark:text-gray-200'>
+            Add Expense
+          </h2>
           <button
             onClick={() => {
               setIsModalOpen(false);
               reset();
             }}
-            className="text-gray-400 hover:text-gray-200 transition-colors duration-200"
+            className='text-gray-400 hover:text-gray-200 dark:text-gray-300 dark:hover:text-gray-100 transition-colors duration-200'
           >
-            <FiX className="text-2xl" />
+            <FiX className='text-xl' />
           </button>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
           <div>
             <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-300 mb-1"
+              htmlFor='title'
+              className='block text-sm font-medium text-gray-300 dark:text-gray-400 mb-1'
             >
               Title
             </label>
             <input
-              {...register("title", {
-                required: "Title is required.",
-              })}
-              type="text"
-              id="title"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
-              placeholder="Enter expense title"
+              {...register("title", { required: "Title is required." })}
+              type='text'
+              id='title'
+              className='w-full px-3 py-2 bg-gray-700 dark:bg-gray-800 border border-gray-600 dark:border-gray-700 rounded-md text-gray-100 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 transition-colors duration-200'
+              placeholder='Enter title'
             />
             {errors.title && (
-              <p className="mt-1 text-sm text-red-400">
+              <p className='mt-1 text-sm text-red-400 dark:text-red-300'>
                 {errors.title.message}
               </p>
             )}
           </div>
           <div>
             <label
-              htmlFor="amount"
-              className="block text-sm font-medium text-gray-300 mb-1"
+              htmlFor='amount'
+              className='block text-sm font-medium text-gray-300 dark:text-gray-400 mb-1'
             >
               Amount (₹)
             </label>
@@ -88,43 +115,43 @@ const ExpenseModel = ({ setIsModalOpen, fetchTransactions }) => {
                   message: "Enter a valid amount.",
                 },
               })}
-              type="number"
-              id="amount"
-              step="0.01"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
-              placeholder="Enter amount"
+              type='number'
+              id='amount'
+              step='0.01'
+              className='w-full px-3 py-2 bg-gray-700 dark:bg-gray-800 border border-gray-600 dark:border-gray-700 rounded-md text-gray-100 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 transition-colors duration-200'
+              placeholder='Enter amount'
             />
             {errors.amount && (
-              <p className="mt-1 text-sm text-red-400">
+              <p className='mt-1 text-sm text-red-400 dark:text-red-300'>
                 {errors.amount.message}
               </p>
             )}
           </div>
           <div>
             <label
-              htmlFor="category"
-              className="block text-sm font-medium text-gray-300 mb-1"
+              htmlFor='type'
+              className='block text-sm font-medium text-gray-300 dark:text-gray-400 mb-1'
             >
               Category
             </label>
             <select
-              {...register("type", {
-                required: "Please select a type.",
-              })}
-              id="type"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+              {...register("type", { required: "Please select a type." })}
+              id='type'
+              className='w-full px-3 py-2 bg-gray-700 dark:bg-gray-800 border border-gray-600 dark:border-gray-700 rounded-md text-gray-100 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 transition-colors duration-200'
             >
-              <option value="">Select a type</option>
-              <option value="spent">Spent</option>
-              <option value="credited">Credited</option>
+              <option value=''>Select a type</option>
+              <option value='spent'>Spent</option>
+              <option value='credited'>Credited</option>
             </select>
             {errors.type && (
-              <p className="mt-1 text-sm text-red-400">{errors.type.message}</p>
+              <p className='mt-1 text-sm text-red-400 dark:text-red-300'>
+                {errors.type.message}
+              </p>
             )}
           </div>
           <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors duration-200"
+            type='submit'
+            className='w-full bg-blue-500 dark:bg-blue-600 text-white dark:text-gray-900 py-2 px-4 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-offset-gray-900 transition-colors duration-200'
           >
             Add Expense
           </button>

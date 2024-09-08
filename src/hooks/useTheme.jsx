@@ -1,21 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const useTheme = () => {
-  const getTheme = localStorage.getItem("theme");
-  const [theme, setTheme] = useState(getTheme ? getTheme : "dark");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-  function applyTheme(theme) {
-    localStorage.setItem("theme", theme);
-    const body = document.querySelector("body");
-    // body.setAttribute("data-bs-theme", theme); // Set the data-bs-theme attribute
-  }
-
-  function toggleTheme() {
-    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-  }
-  useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+  };
 
   return [theme, toggleTheme];
 };
