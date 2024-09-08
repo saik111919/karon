@@ -95,7 +95,7 @@ const ExpenseTrackerCard = ({
         </div>
       </div>
       <LoaderComp />
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
+      <div className='lg:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 flex lg:overflow-x-visible lg:overflow-y-visible md:overflow-y-visible md:overflow-x-visible overflow-x-auto overflow-y-hidden '>
         {cards.map((card, index) => (
           <Card key={index} {...card} />
         ))}

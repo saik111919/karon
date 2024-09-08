@@ -7,10 +7,10 @@ const Card = ({ title, amount, icon, color, textColor }) => (
   <motion.div
     whileHover={{ y: -5 }}
     transition={{ type: "spring", stiffness: 400 }}
-    className={`${color} rounded-lg shadow-lg p-6 flex flex-col space-y-4`}
+    className={`${color} lg:rounded-lg md:rounded-lg rounded-2xl lg:shadow-lg md:shadow-lg shadow-2xl p-6 flex flex-col space-y-4`}
   >
     <div className='flex items-center justify-between'>
-      <div className='flex flex-col'>
+      <div className='flex flex-col lg:p-0 pr-6'>
         <p className={`${textColor} text-3xl md:text-4xl font-bold`}>
           {formatIndianCurrency(amount)}
         </p>
