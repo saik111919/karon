@@ -1,126 +1,116 @@
-import { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  FaCheckCircle,
-  FaExclamationCircle,
-  FaTimesCircle,
-  FaInfoCircle,
-} from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { Trash2, AlertCircle, CheckCircle, XCircle, Info } from "lucide-react";
 
 const AlertModal = ({
   isOpen,
   onClose,
-  title,
-  message,
-  type = "info",
   onConfirm,
-  confirmText = "Confirm",
+  type = "info",
+  title = "Are you sure?",
 }) => {
-  const [isVisible, setIsVisible] = useState(isOpen);
-
-  useEffect(() => {
-    setIsVisible(isOpen);
-  }, [isOpen]);
-
-  if (!isVisible) return null;
-
-  const getTypeStyles = () => {
+  const getTypeConfig = () => {
     switch (type) {
       case "success":
         return {
-          bgColor: "bg-green-50 dark:bg-green-800",
-          textColor: "text-green-800 dark:text-green-100",
-          borderColor: "border-green-500",
-          icon: <FaCheckCircle className='w-6 h-6 text-green-600' />,
+          icon: CheckCircle,
+          color: "green",
+          bgColor: "bg-green-600 dark:bg-green-700",
+          hoverColor: "hover:bg-green-700 dark:hover:bg-green-800",
         };
       case "error":
         return {
-          bgColor: "bg-red-50 dark:bg-red-800",
-          textColor: "text-red-800 dark:text-red-100",
-          borderColor: "border-red-500",
-          icon: <FaTimesCircle className='w-6 h-6 text-red-600' />,
+          icon: XCircle,
+          color: "red",
+          bgColor: "bg-red-600 dark:bg-red-700",
+          hoverColor: "hover:bg-red-700 dark:hover:bg-red-800",
         };
       case "warning":
         return {
-          bgColor: "bg-yellow-50 dark:bg-yellow-800",
-          textColor: "text-yellow-800 dark:text-yellow-100",
-          borderColor: "border-yellow-500",
-          icon: <FaExclamationCircle className='w-6 h-6 text-yellow-600' />,
+          icon: AlertCircle,
+          color: "yellow",
+          bgColor: "bg-yellow-600 dark:bg-yellow-700",
+          hoverColor: "hover:bg-yellow-700 dark:hover:bg-yellow-800",
+        };
+      case "delete":
+        return {
+          icon: Trash2,
+          color: "red",
+          bgColor: "bg-red-600 dark:bg-red-700",
+          hoverColor: "hover:bg-red-700 dark:hover:bg-red-800",
         };
       default:
         return {
-          bgColor: "bg-blue-50 dark:bg-blue-800",
-          textColor: "text-blue-800 dark:text-blue-100",
-          borderColor: "border-blue-500",
-          icon: <FaInfoCircle className='w-6 h-6 text-blue-600' />,
+          icon: Info,
+          color: "blue",
+          bgColor: "bg-blue-600 dark:bg-blue-700",
+          hoverColor: "hover:bg-blue-700 dark:hover:bg-blue-800",
         };
     }
   };
 
-  const { bgColor, textColor, borderColor, icon } = getTypeStyles();
-
-  const handleConfirm = () => {
-    if (onConfirm) {
-      onConfirm();
-    }
-    setIsVisible(false);
-  };
-
-  const handleClose = () => {
-    setIsVisible(false);
-    if (onClose) onClose();
-  };
+  const { icon: Icon, color, bgColor, hoverColor } = getTypeConfig();
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50'>
-      <div
-        className={`max-w-lg w-full bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden ${borderColor} border-2`}
-      >
-        <div className={`p-6 ${bgColor}`}>
-          <div className='flex items-center justify-between mb-4'>
-            <div className='flex items-center space-x-3'>
-              {icon}
-              <h3 className={`text-xl font-semibold ${textColor}`}>{title}</h3>
-            </div>
-            <button
-              onClick={handleClose}
-              className='text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200'
-            >
-              <FaTimesCircle className='w-6 h-6' />
-            </button>
-          </div>
-          <p className={`text-md ${textColor}`}>{message}</p>
-        </div>
-        <div className='flex justify-end p-2 bg-gray-100 dark:bg-gray-800 rounded-b-lg'>
-          <button
-            onClick={handleClose}
-            className='px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-300 transition-colors duration-200'
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50"
+        >
+          <motion.div
+            initial={{ scale: 0.9, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.9, y: 20 }}
+            className="bg-gray-100 dark:bg-gray-800 lg:rounded-lg rounded-3xl shadow-lg overflow-hidden max-w-sm w-full"
           >
-            Close
-          </button>
-          {confirmText && (
-            <button
-              onClick={handleConfirm}
-              className='ml-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200'
-            >
-              {confirmText}
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
+            <div className="p-4 flex flex-col items-center">
+              <motion.div
+                initial={{ rotate: -180, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              >
+                <Icon
+                  className={`w-12 h-12 text-${color}-500 dark:text-${color}-400 mb-4`}
+                />
+              </motion.div>
+              <h2 className="text-gray-900 dark:text-white text-xl font-semibold mb-4">
+                {title}
+              </h2>
+              <div className="flex w-full space-x-2">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onClose}
+                  className="flex-1 py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 lg:rounded-md rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+                >
+                  Cancel
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onConfirm}
+                  className={`flex-1 py-2 px-4 ${bgColor} text-white lg:rounded-md rounded-full ${hoverColor} transition-colors duration-200`}
+                >
+                  Confirm
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
 AlertModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool,
   onClose: PropTypes.func,
-  title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["info", "success", "error", "warning"]),
-  showConfirm: PropTypes.bool,
   onConfirm: PropTypes.func,
-  confirmText: PropTypes.string,
+  type: PropTypes.string,
+  title: PropTypes.string,
 };
 
-export default memo(AlertModal);
+export default AlertModal;

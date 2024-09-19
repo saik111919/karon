@@ -25,7 +25,7 @@ const Layout = () => {
   };
 
   return (
-    <div className='flex flex-col max-h-screen dark:bg-gray-900 dark:text-white'>
+    <div className="flex flex-col max-h-screen dark:bg-gray-900 dark:text-white">
       <NavBar
         isSidebarExpanded={isSidebarExpanded}
         setIsSidebarExpanded={setIsSidebarExpanded}
@@ -35,10 +35,10 @@ const Layout = () => {
       />
       <main
         className={`flex-grow overflow-x-hidden overflow-y-auto ${
-          isSidebarExpanded ? "lg:ml-64" : "lg:ml-12"
+          isSidebarExpanded ? "lg:ml-72" : "lg:ml-16"
         }`}
       >
-        <div className='max-w-full h-full'>
+        <div className="max-w-full h-full">
           <Outlet />
         </div>
       </main>

@@ -1,11 +1,53 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { FiSettings, FiUser, FiBell, FiMoon, FiSun } from "react-icons/fi";
+import {
+  Settings as SettingsIcon,
+  Sun,
+  Moon,
+  LogOut,
+  User,
+  Bell,
+} from "lucide-react";
 import HoverableName from "./HoverableName";
-import SettingsItem from "./SettingsItem";
 import Logout from "../../plugin/Logout";
 import AlertModal from "../../component/AlertModal";
 import useTheme from "../../hooks/useTheme";
+
+const SidebarItem = ({ icon, title, active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center space-x-3 px-4 py-3 text-left transition-colors duration-200 ${
+      active
+        ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300"
+        : "hover:bg-gray-100 dark:hover:bg-gray-700"
+    }`}
+  >
+    {icon}
+    <span className="text-sm font-medium">{title}</span>
+  </button>
+);
+
+SidebarItem.propTypes = {
+  icon: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+const SettingsItem = ({ title, children }) => (
+  <div className="mb-6">
+    <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+      {title}
+    </h2>
+    <div className="dark:bg-gray-800 rounded-lg shadow">{children}</div>
+  </div>
+);
+
+SettingsItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -13,9 +55,9 @@ const Settings = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [theme, toggleTheme] = useTheme();
   const darkMode = theme === "dark";
+  const [activeSection, setActiveSection] = useState("account");
 
   useEffect(() => {
-    // Ensure the theme is applied correctly on initial load
     const isDarkMode = localStorage.getItem("theme") === "dark";
     document.documentElement.classList.toggle("dark", isDarkMode);
   }, []);
@@ -38,79 +80,100 @@ const Settings = () => {
   };
 
   return (
-    <div className='min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-4 transition-colors duration-300'>
-      <div className='w-full max-w-lg sm:max-w-xl md:max-w-2xl bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden flex flex-col'>
-        <div className='bg-blue-500 dark:bg-blue-700 p-6 sm:p-8'>
-          <div className='flex justify-between items-center'>
-            <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold text-white'>
-              Settings
-            </h1>
-            <FiSettings className='h-7 w-7 text-white transition-transform duration-300 ease-in-out transform hover:rotate-180' />
-          </div>
-          <div className='mt-6'>
-            <HoverableName
-              name={name}
-              onNameChange={handleNameChange}
-              className='text-xl sm:text-2xl md:text-3xl text-white font-semibold'
-            />
-          </div>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            Settings
+          </h1>
+          <SettingsIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
         </div>
 
-        <div className='flex-grow overflow-y-auto'>
-          <div className='divide-y divide-gray-300 dark:divide-gray-700'>
-            <SettingsItem
-              icon={
-                <FiUser className='h-6 w-6 text-gray-600 dark:text-gray-300' />
-              }
-              title='Account'
-              description='Manage your account settings'
-              onClick={() => console.log("Account settings clicked")}
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Sidebar */}
+          <div className="w-full md:w-64 dark:bg-gray-800 rounded-lg shadow">
+            <SidebarItem
+              icon={<User className="h-5 w-5" />}
+              title="Account"
+              active={activeSection === "account"}
+              onClick={() => setActiveSection("account")}
             />
-            <SettingsItem
-              icon={
-                <FiBell className='h-6 w-6 text-gray-600 dark:text-gray-300' />
-              }
-              title='Notifications'
-              description='Configure your notification preferences'
-              onClick={() => console.log("Notifications settings clicked")}
-            />
-            <SettingsItem
-              icon={
-                darkMode ? (
-                  <FiSun className='h-6 w-6 text-gray-600 dark:text-gray-300' />
-                ) : (
-                  <FiMoon className='h-6 w-6 text-gray-600 dark:text-gray-300' />
-                )
-              }
-              title='Appearance'
-              description={`Switch to ${darkMode ? "light" : "dark"} mode`}
-              onClick={toggleDarkMode}
+            <SidebarItem
+              icon={<Bell className="h-5 w-5" />}
+              title="Notifications"
+              active={activeSection === "notifications"}
+              onClick={() => setActiveSection("notifications")}
             />
           </div>
-        </div>
 
-        <div className='p-4 sm:p-6 bg-gray-50 dark:bg-gray-800'>
-          <Logout
-            tag='button'
-            className='bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg w-full transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50'
-            onClick={() => {
-              setShowConfirmModal(true);
-            }}
-          >
-            Log Out
-          </Logout>
+          {/* Main content */}
+          <div className="flex-1">
+            {activeSection === "account" && (
+              <>
+                <SettingsItem title="Profile">
+                  <div className="p-4">
+                    <HoverableName
+                      name={name}
+                      onNameChange={handleNameChange}
+                      className="text-xl font-semibold text-gray-900 dark:text-gray-100"
+                    />
+                  </div>
+                </SettingsItem>
+
+                <SettingsItem title="Appearance">
+                  <button
+                    onClick={toggleDarkMode}
+                    className="w-full flex items-center justify-between rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                  >
+                    <div className="flex items-center space-x-3">
+                      {darkMode ? (
+                        <Sun className="h-5 w-5 text-yellow-500" />
+                      ) : (
+                        <Moon className="h-5 w-5 text-blue-500" />
+                      )}
+                      <span className="text-sm font-medium">
+                        {darkMode
+                          ? "Switch to light mode"
+                          : "Switch to dark mode"}
+                      </span>
+                    </div>
+                  </button>
+                </SettingsItem>
+
+                <SettingsItem title="Account Actions">
+                  <Logout
+                    tag="button"
+                    className="w-full flex items-center justify-between p-4 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 dark:text-red-400 transition-colors duration-200"
+                    onClick={() => setShowConfirmModal(true)}
+                  >
+                    <span className="text-sm font-medium">Log out</span>
+                    <LogOut className="h-5 w-5" />
+                  </Logout>
+                </SettingsItem>
+              </>
+            )}
+
+            {activeSection === "notifications" && (
+              <SettingsItem title="Notifications">
+                <div className="p-4">
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Notification settings will be displayed here.
+                  </p>
+                </div>
+              </SettingsItem>
+            )}
+          </div>
         </div>
       </div>
+
       <AlertModal
         isOpen={showConfirmModal}
         onClose={() => setShowConfirmModal(false)}
-        title='Confirm'
-        message='Are you sure you want to log out?'
-        type='warning'
-        confirmText="Yes, I'm sure"
-        onConfirm={() => {
-          handleLogout();
-        }}
+        title="Confirm Logout"
+        message="Are you sure you want to log out?"
+        type="warning"
+        confirmText="Yes, log out"
+        onConfirm={handleLogout}
       />
     </div>
   );
