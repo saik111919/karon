@@ -59,14 +59,19 @@
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
-import { Home, Settings, User, Bell } from "lucide-react";
+import { Home, Settings, User, Bell, Component, Video } from "lucide-react";
 import React from "react";
 
-const iconComponents = {
-  Home,
-  Settings,
-  User,
-  Bell,
+const iconComponents = (icon) => {
+  const icons = {
+    Home,
+    Settings,
+    User,
+    Video,
+    Bell,
+  };
+
+  return icons[icon] || Component;
 };
 
 const BottomBar = ({ routes }) => (
@@ -98,7 +103,7 @@ const BottomBar = ({ routes }) => (
                     whileTap={{ scale: 0.95 }}
                     className="relative"
                   >
-                    {React.createElement(iconComponents[name], {
+                    {React.createElement(iconComponents(name), {
                       size: 24,
                       className: `transition-all duration-300 ${
                         isActive ? "stroke-current" : "stroke-2"

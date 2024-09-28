@@ -10,6 +10,11 @@ export const config = () => ({
     Authorization: `Bearer ${UserToken()}`,
   },
 });
+// export const mangaConfig = () => ({
+//   headers: {
+//     Authorization: `Bearer ${import.meta.env.VITE_SECRET_KEY_MANGA}`,
+//   },
+// });
 
 export function loginFun(body) {
   return client.post(`${BASE_URL}/api/login`, body);

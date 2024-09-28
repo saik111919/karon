@@ -2,23 +2,23 @@ import NavBar from "./NavBar";
 import { Outlet } from "react-router-dom";
 import "./layout.css";
 import { useState } from "react";
-import useTheme from "../hooks/useTheme";
 import BottomBar from "./BottomBar";
 import routes from "../routes/routes";
-import { FaCog, FaHome, FaUser } from "react-icons/fa";
+import { Cog, Home, User, Video } from "lucide-react";
 
 const Layout = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
-  const [theme, toggleTheme] = useTheme();
 
   const getIcon = (name) => {
     switch (name.toLowerCase()) {
       case "home":
-        return <FaHome />;
+        return <Home />;
       case "profile":
-        return <FaUser />;
+        return <User />;
       case "settings":
-        return <FaCog />;
+        return <Cog />;
+      case "video":
+        return <Video />;
       default:
         return null;
     }
@@ -29,12 +29,10 @@ const Layout = () => {
       <NavBar
         isSidebarExpanded={isSidebarExpanded}
         setIsSidebarExpanded={setIsSidebarExpanded}
-        toggleTheme={toggleTheme}
         getIcon={getIcon}
-        theme={theme}
       />
       <main
-        className={`flex-grow overflow-x-hidden overflow-y-auto ${
+        className={`flex-grow overflow-x-hidden overflow-y-auto h-screen ${
           isSidebarExpanded ? "lg:ml-72" : "lg:ml-16"
         }`}
       >

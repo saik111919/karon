@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { FiPlusCircle } from "react-icons/fi";
+// import { useState } from "react";
+// import { FiPlusCircle } from "react-icons/fi";
 import ExpenseTrackerCard from "../../component/expense/ExpenseTrackerCard";
-import ExpenseModel from "../../component/ExpenseModel";
+// import ExpenseModel from "../../component/ExpenseModel";
 import useExpenseTracker from "../../hooks/useExpenseTracker";
 import useTransaction from "../../hooks/useTransaction";
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, LoaderComp, setLoader, fetchTransactions } = useTransaction();
   const {
     selectedMonth,
@@ -45,20 +45,21 @@ const Home = () => {
           formattedLastMonth={formattedLastMonth}
         />
 
-        <button
+        {/* <button
           className="fixed lg:bottom-8 bottom-20 right-8 bg-blue-500 dark:bg-blue-600 text-white rounded-full lg:p-4 p-3 shadow-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-gray-900"
           onClick={() => setIsModalOpen(true)}
         >
           <FiPlusCircle className="text-3xl" />
-        </button>
+        </button> */}
       </main>
 
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <ExpenseModel
+          isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           fetchTransactions={fetchTransactions}
         />
-      )}
+      )} */}
     </div>
   );
 };

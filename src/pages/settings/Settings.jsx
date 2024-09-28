@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,12 +12,13 @@ import {
 import HoverableName from "./HoverableName";
 import Logout from "../../plugin/Logout";
 import AlertModal from "../../component/AlertModal";
-import useTheme from "../../hooks/useTheme";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../../store/themeSlice";
 
 const SidebarItem = ({ icon, title, active, onClick }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center space-x-3 px-4 py-3 text-left transition-colors duration-200 ${
+    className={`w-full flex items-center space-x-3 px-4 py-3 text-left rounded-lg transition-colors duration-200 ${
       active
         ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300"
         : "hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -53,25 +54,13 @@ const Settings = () => {
   const navigate = useNavigate();
   const [name, setName] = useState(localStorage.getItem("name") || "");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [theme, toggleTheme] = useTheme();
-  const darkMode = theme === "dark";
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
   const [activeSection, setActiveSection] = useState("account");
-
-  useEffect(() => {
-    const isDarkMode = localStorage.getItem("theme") === "dark";
-    document.documentElement.classList.toggle("dark", isDarkMode);
-  }, []);
 
   const handleNameChange = (newName) => {
     setName(newName);
     localStorage.setItem("name", newName);
-  };
-
-  const toggleDarkMode = () => {
-    const newTheme = darkMode ? "light" : "dark";
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
-    toggleTheme();
   };
 
   const handleLogout = () => {
@@ -122,17 +111,17 @@ const Settings = () => {
 
                 <SettingsItem title="Appearance">
                   <button
-                    onClick={toggleDarkMode}
+                    onClick={() => dispatch(toggleTheme())}
                     className="w-full flex items-center justify-between rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                   >
                     <div className="flex items-center space-x-3">
-                      {darkMode ? (
+                      {theme === "dark" ? (
                         <Sun className="h-5 w-5 text-yellow-500" />
                       ) : (
                         <Moon className="h-5 w-5 text-blue-500" />
                       )}
                       <span className="text-sm font-medium">
-                        {darkMode
+                        {theme === "dark"
                           ? "Switch to light mode"
                           : "Switch to dark mode"}
                       </span>

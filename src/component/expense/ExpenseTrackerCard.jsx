@@ -12,6 +12,7 @@ import useToast from "../../hooks/useToast";
 import TransactionItem from "./TransactionItem";
 import AlertModal from "../AlertModal";
 import { DeleteTransactions } from "../../services/services";
+import ExpenseActions from "./ExpenseActions";
 
 const Card = ({ title, amount, icon, color, textColor }) => (
   <motion.div
@@ -147,17 +148,18 @@ const ExpenseTrackerCard = ({
         ))}
       </motion.div>
 
+      <ExpenseActions fetchTransactions={fetchTransactions} />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
         className="bg-gray-50 dark:bg-gray-700 rounded-2xl shadow-lg p-6"
       >
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="lg:text-2xl md:text-2xl text-lg font-bold text-gray-900 dark:text-gray-100">
+        <div className="flex justify-between items-center mb-6 flex-wrap">
+          <h2 className="lg:text-2xl md:text-2xl text-lg font-bold text-gray-900 sm:text-center dark:text-gray-100">
             Recent Transactions
           </h2>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
             {visibleTransactions.length} transactions
           </span>
         </div>

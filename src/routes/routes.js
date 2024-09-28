@@ -5,6 +5,7 @@ const Home = lazy(() => import("../pages/Home/Home"));
 const Settings = lazy(() => import("../pages/settings/Settings"));
 const Login = lazy(() => import("../pages/Auth/Login"));
 const Signup = lazy(() => import("../pages/Auth/Signup"));
+const Video = lazy(() => import("../pages/Video/Video"));
 
 const routes = [
   {
@@ -14,13 +15,13 @@ const routes = [
     isProtected: true,
     isHeader: true,
   },
-  // {
-  //   path: "/expense",
-  //   Component: ExpenseTraker,
-  //   name: "Expense Traker",
-  //   isProtected: true,
-  //   isHeader: true,
-  // },
+  {
+    path: "/video",
+    Component: Video,
+    name: "Video",
+    isProtected: true,
+    isHeader: true,
+  },
   {
     path: "/login",
     Component: Login,
